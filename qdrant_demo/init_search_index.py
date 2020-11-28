@@ -58,6 +58,8 @@ def split_sentences(books: Iterable[dict]) -> Iterable[dict]:
         description = book.get('description')
         sentences = tokenize.sent_tokenize(description)
         for sentence_id, sentence in enumerate(sentences):
+            if len(sentence) < 5:
+                continue
             yield {
                 **book,
                 "sentence": sentence,
@@ -76,10 +78,13 @@ def upload_data_to_search(data: Iterable[dict], vectorized_field):
         embeddings_batch = model.encode([row[vectorized_field] for row in batch], show_progress_bar=False)
         points = []
         for vec, row in zip(embeddings_batch, batch):
-            points.append(qdrant_client.make_point(num, vector=vec, payload=row))
+            points.append(qdrant_client.make_point(idx=num, vector=vec.tolist(), payload=row))
             num += 1
 
-        break
+        qdrant_client.upload_point(collection_name, points=points)
+
+        if num > 250:
+            break
 
 
 if __name__ == '__main__':

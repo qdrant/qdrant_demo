@@ -9,11 +9,10 @@ python = "~3.8"
 tensorflow-hub = "^0.10.0"
 fastapi = "^0.61.2"
 uvicorn = "^0.12.3"
-#openapi-client = {path = "qdrant_client"}
-qdrant-api-client = {path = "qdrant-api-client"}
 sentence-transformers = "^0.3.9"
 psutil = "^5.7.3"
 nltk = "^3.5"
+qdrant-openapi-client = {git = "https://github.com/qdrant/qdrant_python_client.git", rev = "master"}
 
 [tool.poetry.dev-dependencies]
 

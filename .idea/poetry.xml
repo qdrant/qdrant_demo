@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PoetryConfigService">
+    <option name="poetryVirtualenvPaths">
+      <set>
+        <option value="$USER_HOME$/.var/app/com.jetbrains.PyCharm-Community/cache/pypoetry/virtualenvs/qdrant-demo-1Wr5nCLG-py3.8/bin/python" />
+      </set>
+    </option>
+  </component>
+</project>
