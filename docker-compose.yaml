@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    environment:
+      - QDRANT_HOST=qdrant
+    depends_on:
+      - qdrant
+  qdrant:
+    image: generall/qdrant:latest
+    ports:
+    - 6333:6333
+    volumes:
+      - ./data/qdarnt_storage:/qdrant/storage
