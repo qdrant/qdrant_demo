@@ -210,7 +210,7 @@ urllib3 = ">=1.15"
 type = "git"
 url = "https://github.com/qdrant/qdrant_python_client.git"
 reference = "master"
-resolved_reference = "66228a5f48d3d510e9004fd0d48fbff5e4e2bd51"
+resolved_reference = "5e3c620a43af1f5051fe7f119d416df16cb7b0cc"
 
 [[package]]
 name = "regex"

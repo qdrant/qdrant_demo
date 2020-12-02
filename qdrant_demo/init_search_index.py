@@ -10,7 +10,8 @@ from nltk import tokenize
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 
-from qdrant_demo.config import DATA_DIR
+from qdrant_demo.config import DATA_DIR, COLLECTION_NAME
+from qdrant_demo.neural_searcher import NeuralSearcher
 from qdrant_demo.qdrant_client import QdrantClient
 
 BATCH_SIZE = 32
@@ -28,14 +29,6 @@ def iter_batch(iterable, size):
         if len(b) == 0:
             break
         yield b
-
-
-def load_model() -> SentenceTransformer:
-    model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device="cpu")
-    process = psutil.Process(os.getpid())
-    used_mem_mb = process.memory_info().rss / 1024 / 1024
-    logging.info(f"Memory usage: {used_mem_mb} Mb")
-    return model
 
 
 def iterate_books_data(data_path) -> Iterable[dict]:
@@ -68,11 +61,10 @@ def split_sentences(books: Iterable[dict]) -> Iterable[dict]:
 
 
 def upload_data_to_search(data: Iterable[dict], vectorized_field):
-    collection_name = "books"
     qdrant_client = QdrantClient()
-    model = load_model()
+    model = NeuralSearcher.load_model()
     vector_size = model.get_sentence_embedding_dimension()
-    qdrant_client.recreate_collection(collection_name, vector_size=vector_size)
+    qdrant_client.recreate_collection(COLLECTION_NAME, vector_size=vector_size)
     num = 0
     for batch in tqdm(iter_batch(data, BATCH_SIZE)):
         embeddings_batch = model.encode([row[vectorized_field] for row in batch], show_progress_bar=False)
@@ -81,16 +73,16 @@ def upload_data_to_search(data: Iterable[dict], vectorized_field):
             points.append(qdrant_client.make_point(idx=num, vector=vec.tolist(), payload=row))
             num += 1
 
-        qdrant_client.upload_point(collection_name, points=points)
+        qdrant_client.upload_point(COLLECTION_NAME, points=points)
 
-        if num > 250:
-            break
+        # if num > 250:
+        #     break
 
 
 if __name__ == '__main__':
     LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
-    nltk.download('punkt')
     logging.basicConfig(level=LOGLEVEL)
+    nltk.download('punkt')
     books_path = os.path.join(DATA_DIR, 'top2k_book_descriptions.csv')
     books = iterate_books_data(books_path)
     upload_data_to_search(split_sentences(books), vectorized_field="sentence")
