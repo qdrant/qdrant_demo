@@ -12,6 +12,7 @@ services:
       - qdrant
   qdrant:
     image: generall/qdrant:latest
+    mem_limit: 600m
     ports:
     - 6333:6333
     volumes:

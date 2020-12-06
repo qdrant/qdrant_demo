@@ -2,13 +2,12 @@ import logging
 import os
 from typing import Dict, List, Optional
 
-from qdrant_openapi_client.model.filter import Filter
-
 import qdrant_openapi_client
 from qdrant_openapi_client.api.collections_api import CollectionsApi
 from qdrant_openapi_client.api.points_api import PointsApi
 from qdrant_openapi_client.model.collection_update_operations import CollectionUpdateOperations
 from qdrant_openapi_client.model.distance import Distance
+from qdrant_openapi_client.model.filter import Filter
 from qdrant_openapi_client.model.payload_interface import PayloadInterface
 from qdrant_openapi_client.model.point_insert_ops import PointInsertOps
 from qdrant_openapi_client.model.point_request import PointRequest
@@ -69,10 +68,10 @@ class QdrantClient:
             collection_name,
             collection_update_operations=CollectionUpdateOperations(
                 upsert_points=PointInsertOps(points=points)
-            ))
+            ), async_req=True)
 
     def search(self, collection_name: str, vector, filter_: Optional[Filter] = None, top=5):
-        search_result =  self.point_api.search_points(
+        search_result = self.point_api.search_points(
             collection_name,
             search_request=SearchRequest(
                 top=top,
@@ -85,10 +84,11 @@ class QdrantClient:
 
     def lookup(self, collection_name: str, ids: List[int]) -> List[dict]:
         records: List[Record] = self.point_api.get_points(collection_name, point_request=PointRequest(ids=ids)).result
-        return [
-            record.to_dict()['payload']
+        payloads = dict(
+            (record.id, record.to_dict()['payload'])
             for record in records
-        ]
+        )
+        return [payloads[idx] for idx in ids if idx in payloads]
 
     @classmethod
     def data_to_payload_request(cls, obj: dict) -> Dict[str, PayloadInterface]:
@@ -114,4 +114,3 @@ class QdrantClient:
             vector=vector,
             payload=cls.data_to_payload_request(payload)
         )
-

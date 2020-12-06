@@ -1,20 +1,16 @@
-import csv
+import json
 import logging
 import os
 from itertools import islice
-from typing import Iterable, Dict
+from typing import Iterable
 
-import nltk
-import psutil
-from nltk import tokenize
-from sentence_transformers import SentenceTransformer
+import numpy as np
 from tqdm import tqdm
 
-from qdrant_demo.config import DATA_DIR, COLLECTION_NAME
-from qdrant_demo.neural_searcher import NeuralSearcher
+from qdrant_demo.config import COLLECTION_NAME, DATA_DIR
 from qdrant_demo.qdrant_client import QdrantClient
 
-BATCH_SIZE = 32
+BATCH_SIZE = 256
 
 
 def iter_batch(iterable, size):
@@ -31,58 +27,24 @@ def iter_batch(iterable, size):
         yield b
 
 
-def iterate_books_data(data_path) -> Iterable[dict]:
-    with open(data_path) as fd:
-        csv_reader = csv.DictReader(fd)
-        for row in csv_reader:
-            yield {
-                "book_id": int(row["id"]),
-                "authors": row["authors"],
-                "year": int(float(row["original_publication_year"])) if row["original_publication_year"] else None,
-                "title": row["title"],
-                "rating": float(row["average_rating"]),
-                "image_url": row["small_image_url"],
-                "description": row["description"]
-            }
-
-
-def split_sentences(books: Iterable[dict]) -> Iterable[dict]:
-    for book in books:
-        description = book.get('description')
-        sentences = tokenize.sent_tokenize(description)
-        for sentence_id, sentence in enumerate(sentences):
-            if len(sentence) < 5:
-                continue
-            yield {
-                **book,
-                "sentence": sentence,
-                "sentence_id": sentence_id
-            }
-
-
-def upload_data_to_search(data: Iterable[dict], vectorized_field):
+def upload_to_qdrant(data: Iterable[dict], vectors: np.ndarray):
     qdrant_client = QdrantClient()
-    model = NeuralSearcher.load_model()
-    vector_size = model.get_sentence_embedding_dimension()
+    vector_size = vectors.shape[1]
     qdrant_client.recreate_collection(COLLECTION_NAME, vector_size=vector_size)
-    num = 0
-    for batch in tqdm(iter_batch(data, BATCH_SIZE)):
-        embeddings_batch = model.encode([row[vectorized_field] for row in batch], show_progress_bar=False)
-        points = []
-        for vec, row in zip(embeddings_batch, batch):
-            points.append(qdrant_client.make_point(idx=num, vector=vec.tolist(), payload=row))
-            num += 1
-
+    points = []
+    for idx, (record, vector) in tqdm(enumerate(zip(data, vectors))):
+        points.append(qdrant_client.make_point(idx=idx, vector=vector.tolist(), payload=record))
+        if len(points) >= BATCH_SIZE:
+            qdrant_client.upload_point(COLLECTION_NAME, points=points)
+            points = []
+    if len(points) > 0:
         qdrant_client.upload_point(COLLECTION_NAME, points=points)
-
-        # if num > 250:
-        #     break
 
 
 if __name__ == '__main__':
     LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
     logging.basicConfig(level=LOGLEVEL)
-    nltk.download('punkt')
-    books_path = os.path.join(DATA_DIR, 'top2k_book_descriptions.csv')
-    books = iterate_books_data(books_path)
-    upload_data_to_search(split_sentences(books), vectorized_field="sentence")
+    vectors_ = np.load(os.path.join(DATA_DIR, 'startup_vectors.npy'))
+    data_ = map(json.loads, open(os.path.join(DATA_DIR, 'startups.json')))
+
+    upload_to_qdrant(data_, vectors_)
