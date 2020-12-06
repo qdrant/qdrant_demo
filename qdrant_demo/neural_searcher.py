@@ -3,12 +3,11 @@ import os
 from typing import List, Optional
 
 import psutil
-from qdrant_openapi_client.model_utils import validate_and_convert_types
+from qdrant_openapi_client.model.filter import Filter
+from qdrant_openapi_client.model.scored_point import ScoredPoint
 from sentence_transformers import SentenceTransformer
 
 from qdrant_demo.qdrant_client import QdrantClient
-from qdrant_openapi_client.model.filter import Filter
-from qdrant_openapi_client.model.scored_point import ScoredPoint
 
 
 class NeuralSearcher:
