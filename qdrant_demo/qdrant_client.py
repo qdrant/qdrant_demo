@@ -82,13 +82,23 @@ class QdrantClient:
         logging.info(f"search time: {search_result.time}")
         return search_result
 
+    @classmethod
+    def _simplify_payload(cls, payload: dict) -> dict:
+        res = {}
+        for key, val in payload.items():
+            if len(val["value"]) == 1:
+                res[key] = val['value'][0]
+            else:
+                res[key] = val['value']
+        return res
+
     def lookup(self, collection_name: str, ids: List[int]) -> List[dict]:
         records: List[Record] = self.point_api.get_points(collection_name, point_request=PointRequest(ids=ids)).result
         payloads = dict(
             (record.id, record.to_dict()['payload'])
             for record in records
         )
-        return [payloads[idx] for idx in ids if idx in payloads]
+        return [self._simplify_payload(payloads[idx]) for idx in ids if idx in payloads]
 
     @classmethod
     def data_to_payload_request(cls, obj: dict) -> Dict[str, PayloadInterface]:

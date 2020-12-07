@@ -14,7 +14,7 @@ logging.basicConfig(level=LOGLEVEL)
 searcher = NeuralSearcher(collection_name=COLLECTION_NAME)
 
 
-@app.get("/search")
+@app.get("/api/search")
 def read_item(q: str):
     return {
         "result": searcher.search(text=q)

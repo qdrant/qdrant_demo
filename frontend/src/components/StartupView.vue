@@ -3,7 +3,7 @@
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs">
         <div class="text-overline">{{ city }}</div>
-        <div class="text-h5 q-mt-sm q-mb-xs">
+        <div class="text-h6 q-mt-sm q-mb-xs">
           {{ name }}  <a :href="link" target="_blank"><q-icon name="open_in_new" /></a>
         </div>
         <div class="text-caption text-grey">
@@ -25,13 +25,13 @@
 
 <script>
 export default {
-  props: ["name", "description", "image", "link", "city", "alt"],
+  props: ["name", "description", "images", "link", "city", "alt"],
   computed: {
     startup_image() {
-      if (this.image === "/img/spacer.gif") {
+      if (this.images === "/img/spacer.gif") {
         return "/empty.jpg";
       }
-      return this.image;
+      return this.images.replace('thumb_jpg', 'medium_jpg');
     },
   },
 };

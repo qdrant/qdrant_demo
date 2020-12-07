@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "fork-me-on-github-vue": "^1.0.7",
     "quasar": "^1.0.0",
     "typeface-roboto": "^1.1.13",
     "vue": "^2.6.11",

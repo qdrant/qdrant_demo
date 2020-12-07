@@ -11,6 +11,12 @@ module.exports = {
   devServer: {
     watchOptions: {
       poll: false
+    },
+    proxy: {
+      "/api/": {
+        target: "http://localhost:8000/",
+        logLevel: "debug"
+      }
     }
   }
 }

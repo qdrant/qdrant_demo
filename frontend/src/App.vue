@@ -67,6 +67,10 @@
       </q-list>
     </q-drawer>
 
+    <Ribbon
+      v-bind="ribbonOptions"
+    ></Ribbon>
+
     <q-page-container>
       <router-view></router-view>
     </q-page-container>
@@ -83,7 +87,13 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      ribbonOptions: {
+        text: 'Fork me on GitHub',
+        linkUrl: "https://github.com/qdrant/qdrant_demo",
+        fixed: true,
+        border: false
+      }
     }
   }
 }
