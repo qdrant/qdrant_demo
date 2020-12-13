@@ -6,8 +6,7 @@
         <div class="text-h6 q-mt-sm q-mb-xs">
           {{ name }}  <a :href="link" target="_blank"><q-icon name="open_in_new" /></a>
         </div>
-        <div class="text-caption text-grey">
-          {{ description }}
+        <div class="text-caption text-grey" v-html="description">
         </div>
       </q-card-section>
 
@@ -19,7 +18,12 @@
           :src="startup_image"
         />
       </q-card-section>
+
     </q-card-section>
+          <q-separator />
+      <q-card-actions>
+        <q-btn flat @click="select">Find similar</q-btn>
+      </q-card-actions>
   </q-card>
 </template>
 
@@ -34,6 +38,11 @@ export default {
       return this.images.replace('thumb_jpg', 'medium_jpg');
     },
   },
+  methods: {
+    select() {
+      this.$emit("select")
+    }
+  }
 };
 </script>
 

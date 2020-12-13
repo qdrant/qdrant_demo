@@ -12,11 +12,13 @@ services:
       - qdrant
     networks:
       - qdrant-net
+    volumes:
+      - ./data/startups.sqlite3:/code/data/startups.sqlite3
   qdrant:
     image: generall/qdrant:latest
-    mem_limit: 600m
-#    ports:
-#    - 6333:6333
+#    mem_limit: 450m
+    ports:
+    - 6333:6333
     volumes:
       - ./data/qdarnt_storage:/qdrant/storage
 

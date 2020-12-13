@@ -12,16 +12,22 @@
             v-on:keyup.enter="search"
           >
             <template v-slot:append>
-              <q-avatar>
-                <img src="@/assets/logo_v2.png" alt="Powered by Qdrant" />
-              </q-avatar>
+              <div v-if="neural">
+                Neural
+                <q-avatar>
+                  <img src="@/assets/logo_v2.png" alt="Powered by Qdrant" />
+                </q-avatar>
+              </div>
+              <div v-if="!neural">Text</div>
+              <q-toggle v-model="neural" @input="search" />
             </template>
           </q-input>
         </div>
       </div>
       <div class="row justify-evenly">
         <div class="col-10">
-          Try this: <q-chip
+          Try this:
+          <q-chip
             v-for="example in examples"
             v-bind:key="example"
             clickable
@@ -36,7 +42,10 @@
       </div>
       <div class="row justify-center">
         <div class="col-10">
-          <div class="row wrap justify-center q-col-gutter-md" v-if="startups.length > 0">
+          <div
+            class="row wrap justify-center q-col-gutter-md"
+            v-if="startups.length > 0"
+          >
             <div
               class="col-4"
               v-for="startup in startups"
@@ -49,6 +58,7 @@
                 :images="startup.images"
                 :city="startup.city"
                 :alt="startup.alt"
+                @select="findSimilar(startup)"
               />
             </div>
           </div>
@@ -56,20 +66,33 @@
             <div class="col-12 text-grey">
               <h1>Startup Search with <b>Qdrant</b></h1>
               <p :style="{ fontSize: '16pt' }">
-                This demo uses a short descriptions of startups to perform a <b>semantic search</b>.
-                Each startup description converted into a vector using a pre-trained SentenceTransformer model and uploaded to the Qdrant vector search engine.
-                Demo service processes text input with the same model and uses its output to query Qdrant for similar vectors.
+                This demo uses short descriptions of startups to perform a
+                <b>semantic search</b>. Each startup description converted into
+                a vector using a <b>pre-trained</b> SentenceTransformer model and
+                uploaded to the Qdrant vector search engine. Demo service
+                processes text input with the same model and uses its output to
+                query Qdrant for similar vectors.
+              </p>
+              <p :style="{ fontSize: '16pt' }">
+                You can turn neural search on and off to compare the result with
+                regular full-text search. Try to use startup description to find
+                similar ones.
+              </p>
+              <p :style="{ fontSize: '16pt' }">
+                You will discover that given a <b>short query</b> - a full-text
+                search provides more precise results but lower recall when a
+                neural search may find close and fuzzy matches. For
+                <b>similarity search and longer queries</b> - full-text search
+                struggles to catch the meaning of the query and return noisy
+                results, while neural search finds better and semantically
+                closer results.
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <q-page-sticky
-      position="bottom-left"
-      :offset="[18, 18]"
-      class="text-grey"
-    >
+    <q-page-sticky position="bottom-left" :offset="[18, 18]" class="text-grey">
       <ul>
         <li>
           Data source:
@@ -77,9 +100,9 @@
         </li>
         <li>
           Embedding model: SentenceTransformer
-          <code>distilbert-base-nli-stsb-mean-tokens</code> 
-          <a href="https://github.com/UKPLab/sentence-transformers"
-            > <q-icon name="open_in_new"></q-icon
+          <code>distilbert-base-nli-stsb-mean-tokens</code>
+          <a href="https://github.com/UKPLab/sentence-transformers">
+            <q-icon name="open_in_new"></q-icon
           ></a>
         </li>
       </ul>
@@ -97,6 +120,7 @@ export default {
   components: { StartupView },
   data: function () {
     return {
+      neural: true,
       query: "",
       examples: [
         "smart devices",
@@ -121,18 +145,26 @@ export default {
   },
   methods: {
     search() {
-      if (this.query === '') {
+      if (this.query === "") {
         this.startups = [];
         return;
       }
       axios
-        .get("/api/search", { params: { q: this.query } })
+        .get("/api/search", { params: { q: this.query, neural: this.neural } })
         .then((response) => {
           this.startups = response.data.result;
         });
     },
     useSample(sampleText) {
       this.query = sampleText;
+      this.search();
+    },
+    findSimilar(startup) {
+      this.query = startup.description
+        .replaceAll("<b>", "")
+        .replaceAll("</b>", "")
+        .replaceAll("\n", " ");
+      this.neural = true;
       this.search();
     },
   },
