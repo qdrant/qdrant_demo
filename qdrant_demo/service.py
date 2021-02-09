@@ -17,7 +17,7 @@ text_searcher = TextSearcher()
 
 
 @app.get("/api/search")
-def read_item(q: str, neural: bool = True):
+async def read_item(q: str, neural: bool = True):
     return {
         "result": neural_searcher.search(text=q)
         if neural else text_searcher.search(query=q)

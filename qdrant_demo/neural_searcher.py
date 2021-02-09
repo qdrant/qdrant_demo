@@ -1,13 +1,11 @@
 import logging
 import os
-from typing import List, Optional
+from typing import List
 
 import psutil
-from qdrant_openapi_client.model.filter import Filter
-from qdrant_openapi_client.model.scored_point import ScoredPoint
+from qdrant_client import QdrantClient
+from qdrant_openapi_client.models.models import Filter
 from sentence_transformers import SentenceTransformer
-
-from qdrant_demo.qdrant_client import QdrantClient
 
 
 class NeuralSearcher:
@@ -25,22 +23,13 @@ class NeuralSearcher:
         self.model = self.load_model(device='cpu')
         self.qdrant_client = QdrantClient()
 
-    @classmethod
-    def _convert_filters(cls, filter_: dict) -> Optional[Filter]:
-        if not filter_:
-            return None
-
-        return Filter(**filter_)
-
     def search(self, text: str, filter_: dict = None) -> List[dict]:
         vector = self.model.encode(text).tolist()
-        res: List[ScoredPoint] = self.qdrant_client.search(
+        search_result = self.qdrant_client.search(
             collection_name=self.collection_name,
-            vector=vector,
-            filter_=filter_
-        ).result
-
-        payloads = self.qdrant_client.lookup(self.collection_name, [point.id for point in res])
-
+            query_vector=vector,
+            query_filter=Filter(**filter_) if filter_ else None,
+            top=5
+        )
+        payloads = [payload for point, payload in search_result]
         return payloads
-

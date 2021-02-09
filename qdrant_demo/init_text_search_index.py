@@ -1,7 +1,7 @@
-import pandas as pd
 import os
-from typing import Iterable, List
+from typing import List
 
+import pandas as pd
 
 from qdrant_demo.config import DATA_DIR
 from qdrant_demo.sqlite_searcher import SqliteSearch

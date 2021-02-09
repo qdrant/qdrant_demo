@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-pa-md q-col-gutter-sm">
+    <div class="q-pa-md q-col-gutter-sm items-stretch">
       <div class="row justify-evenly">
         <div class="col-10">
           <q-input
@@ -68,8 +68,8 @@
               <p :style="{ fontSize: '16pt' }">
                 This demo uses short descriptions of startups to perform a
                 <b>semantic search</b>. Each startup description converted into
-                a vector using a <b>pre-trained</b> SentenceTransformer model and
-                uploaded to the Qdrant vector search engine. Demo service
+                a vector using a <b>pre-trained</b> SentenceTransformer model
+                and uploaded to the Qdrant vector search engine. Demo service
                 processes text input with the same model and uses its output to
                 query Qdrant for similar vectors.
               </p>
@@ -92,7 +92,7 @@
         </div>
       </div>
     </div>
-    <q-page-sticky position="bottom-left" :offset="[18, 18]" class="text-grey">
+    <q-footer class="bg-white text-grey q-ml-md">
       <ul>
         <li>
           Data source:
@@ -106,7 +106,7 @@
           ></a>
         </li>
       </ul>
-    </q-page-sticky>
+    </q-footer>
   </q-page>
 </template>
 
