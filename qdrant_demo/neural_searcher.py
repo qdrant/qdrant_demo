@@ -1,8 +1,5 @@
-import logging
-import os
 from typing import List
 
-import psutil
 from qdrant_client import QdrantClient
 from qdrant_openapi_client.models.models import Filter
 from sentence_transformers import SentenceTransformer
@@ -10,17 +7,9 @@ from sentence_transformers import SentenceTransformer
 
 class NeuralSearcher:
 
-    @classmethod
-    def load_model(cls, device=None):
-        model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device=device)  # , device="cpu"
-        process = psutil.Process(os.getpid())
-        used_mem_mb = process.memory_info().rss / 1024 / 1024
-        logging.info(f"Memory usage: {used_mem_mb} Mb")
-        return model
-
     def __init__(self, collection_name: str):
         self.collection_name = collection_name
-        self.model = self.load_model(device='cpu')
+        self.model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cpu')
         self.qdrant_client = QdrantClient()
 
     def search(self, text: str, filter_: dict = None) -> List[dict]:

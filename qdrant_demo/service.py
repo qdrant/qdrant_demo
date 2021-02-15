@@ -1,7 +1,3 @@
-import logging
-import os
-
-
 from fastapi import FastAPI
 
 from qdrant_demo.config import COLLECTION_NAME
@@ -9,8 +5,6 @@ from qdrant_demo.neural_searcher import NeuralSearcher
 from qdrant_demo.text_searcher import TextSearcher
 
 app = FastAPI()
-LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
-logging.basicConfig(level=LOGLEVEL)
 
 neural_searcher = NeuralSearcher(collection_name=COLLECTION_NAME)
 text_searcher = TextSearcher()
