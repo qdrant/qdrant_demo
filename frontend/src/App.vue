@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-black text-white">
+    <q-header elevated class="bg-brand-primary text-white">
       <q-toolbar>
         <q-btn
           flat
@@ -11,9 +11,9 @@
           icon="menu"
         />
 
-        <q-avatar>
-          <img src="./assets/logo_dark.png">
-        </q-avatar>
+        
+        <img src="./assets/logo_v3.png" width="38px">
+        
 
         <q-toolbar-title>Qdrant Demo</q-toolbar-title>
 
@@ -100,4 +100,11 @@ export default {
 </script>
 
 <style>
+.text-brand-primary {
+  color: white;
+}
+
+.bg-brand-primary {
+  background: #182b3a !important;
+}
 </style>

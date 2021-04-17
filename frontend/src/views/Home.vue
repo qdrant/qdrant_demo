@@ -14,12 +14,12 @@
             <template v-slot:append>
               <div v-if="neural">
                 Neural
-                <q-avatar>
-                  <img src="@/assets/logo_v2.png" alt="Powered by Qdrant" />
+                <q-avatar style='width: auto;'>
+                  <img src="@/assets/logo_v3.png" alt="Powered by Qdrant"/>
                 </q-avatar>
               </div>
               <div v-if="!neural">Text</div>
-              <q-toggle v-model="neural" @input="search" />
+              <q-toggle v-model="neural" @input="search" color="pink-9"/>
             </template>
           </q-input>
         </div>
@@ -32,7 +32,7 @@
             v-bind:key="example"
             clickable
             @click="useSample(example)"
-            color="secondary"
+            color="brand-secondary"
             text-color="white"
             icon="input"
           >
@@ -183,4 +183,13 @@ ul li:before {
   position: absolute;
   margin-left: -1em;
 }
+
+.bg-brand-secondary {
+  background: #bc1439;
+}
+
+.text-bg-secondary {
+  color: #bc1439;
+}
+
 </style>
