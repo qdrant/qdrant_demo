@@ -27,5 +27,6 @@ if __name__ == '__main__':
         vectors=vectors,
         payload=payload,
         ids=None,
-        batch_size=BATCH_SIZE
+        batch_size=BATCH_SIZE,
+        parallel=2
     )
