@@ -28,6 +28,13 @@ Code for initial data preparation could be found in [Colab Notebook](https://col
 
 After evaluating Colab you should get startup records in file `./data/startups.json` and encoded vectors in file `./data/startup_vectors.npy`
 
+Generate full-text index in `./data/startups.sqlite3`
+
+```
+# Init full-text index
+python -m qdrant_demo.init_text_search_index
+```
+
 To launch service locally, use
 
 ```
@@ -40,8 +47,6 @@ After service is started you can upload initial data to the search engine.
 ```
 # Init neural index
 python -m qdrant_demo.init_vector_search_index
-# Init full-text index
-python -m qdrant_demo.init_text_search_index
 ```
 
 After a successful upload, neural search API will be available at [http://localhost:8000/docs](http://localhost:8000/docs) 
