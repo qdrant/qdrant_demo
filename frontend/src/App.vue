@@ -37,7 +37,7 @@
             <q-item-label caption>ReDoc OpenAPI v3.0</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/qdrant/qdrant">
+        <q-item clickable tag="a" target="_blank" href="https://github.com/qdrant/qdrant_demo">
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
@@ -46,7 +46,7 @@
             <q-item-label caption>github.com/qdrant/qdrant_demo</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/qdrant/qdrant_demo">
+        <q-item clickable tag="a" target="_blank" href="https://github.com/qdrant/qdrant">
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
