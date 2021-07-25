@@ -17,4 +17,4 @@ services:
     ports:
     - 6333:6333
     volumes:
-      - ./data/qdarnt_storage:/qdrant/storage
+      - ./data/qdrant_storage:/qdrant/storage
