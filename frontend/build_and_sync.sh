@@ -2,5 +2,5 @@
 
 npm run build
 
-rsync -avP ./dist/ $1:./project/web-deployment/public/demo/
+rsync -avP ./dist/ $1:./project/web-deployment/public/demo_websummit/
 

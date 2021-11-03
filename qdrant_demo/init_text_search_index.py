@@ -19,11 +19,11 @@ class TextIndexing:
 
 
 if __name__ == '__main__':
-    index_path = os.path.join(DATA_DIR, 'startups.sqlite3')
+    index_path = os.path.join(DATA_DIR, 'startups_websummit.sqlite3')
     if os.path.exists(index_path):
         os.remove(index_path)
     indexer = TextIndexing(index_path, indexed_fields=["description", 'name'])
-    indexer.index(os.path.join(DATA_DIR, 'startups.json'))
+    indexer.index(os.path.join(DATA_DIR, 'web_summit_startups.jsonl'))
 
     search_test = indexer.searcher.search(query="cyber sport", limit=5)
     for res in search_test:

@@ -5,6 +5,7 @@ rsync -avP --exclude='venv' \
            --exclude='__pycache__' \
            --exclude='frontend' \
            --exclude='.idea' \
-           . $1:./project/qdrant_demo/
+           --exclude='data' \
+           . $1:./project/qdrant_demo_websummit/
 
 

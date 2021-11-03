@@ -15,7 +15,7 @@
         <img src="./assets/logo_v3.png" width="38px">
         
 
-        <q-toolbar-title>Qdrant Demo</q-toolbar-title>
+        <q-toolbar-title>Qdrant - Web Summit 2021</q-toolbar-title>
 
       </q-toolbar>
     </q-header>

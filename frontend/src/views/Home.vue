@@ -54,17 +54,17 @@
               <StartupView
                 :name="startup.name"
                 :description="startup.description"
-                :link="startup.link"
-                :images="startup.images"
+                :link="startup.link || startup.homepage"
+                :images="startup.images || startup.logo"
                 :city="startup.city"
-                :alt="startup.alt"
+                :alt="startup.name"
                 @select="findSimilar(startup)"
               />
             </div>
           </div>
           <div class="row" v-if="startups.length === 0">
             <div class="col-12 text-grey">
-              <h1>Startup Search with <b>Qdrant</b></h1>
+              <h1>Discover Web Summit Startups with <b>Qdrant</b></h1>
               <p :style="{ fontSize: '16pt' }">
                 This demo uses short descriptions of startups to perform a
                 <b>semantic search</b>. Each startup description converted into
@@ -96,11 +96,11 @@
       <ul>
         <li>
           Data source:
-          <a href="https://startups-list.com/">startups-list.com</a>
+          <a href="https://websummit.com/startups/featured-startups">https://websummit.com/</a>
         </li>
         <li>
           Embedding model: SentenceTransformer
-          <code>distilbert-base-nli-stsb-mean-tokens</code>
+          <code>all-MiniLM-L12-v2</code>
           <a href="https://github.com/UKPLab/sentence-transformers">
             <q-icon name="open_in_new"></q-icon
           ></a>

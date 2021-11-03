@@ -1,28 +1,27 @@
 import json
 import os
-import numpy as np
 
-from qdrant_client import QdrantClient
-
-from qdrant_demo.config import DATA_DIR, COLLECTION_NAME, QDRANT_HOST, QDRANT_PORT
+from qdrant_demo.config import DATA_DIR, COLLECTION_NAME
+from qdrant_demo.neural_searcher import NeuralSearcher
 
 BATCH_SIZE = 256
 
 
 if __name__ == '__main__':
-    qdrant_client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
+    neural_searcher = NeuralSearcher(COLLECTION_NAME)
+    payload_path = os.path.join(DATA_DIR, 'web_summit_startups.jsonl')
 
-    vectors_path = os.path.join(DATA_DIR, 'startup_vectors.npy')
-    vectors = np.load(vectors_path)
-    vector_size = vectors.shape[1]
-
-    payload_path = os.path.join(DATA_DIR, 'startups.json')
     with open(payload_path) as fd:
         payload = list(map(json.loads, fd))
 
-    qdrant_client.recreate_collection(collection_name=COLLECTION_NAME, vector_size=vector_size)
+    vectors = neural_searcher.model.encode([record['description'] for record in payload])
 
-    qdrant_client.upload_collection(
+    neural_searcher.qdrant_client.recreate_collection(
+        collection_name=COLLECTION_NAME,
+        vector_size=neural_searcher.model.get_sentence_embedding_dimension()
+    )
+
+    neural_searcher.qdrant_client.upload_collection(
         collection_name=COLLECTION_NAME,
         vectors=vectors,
         payload=payload,

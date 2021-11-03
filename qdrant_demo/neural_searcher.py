@@ -11,8 +11,9 @@ class NeuralSearcher:
 
     def __init__(self, collection_name: str):
         self.collection_name = collection_name
-        self.model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cpu')
+        self.model = SentenceTransformer('all-MiniLM-L12-v2', device='cpu')
         self.qdrant_client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
+        self.qdrant_client.__class__.unwrap_payload = True
 
     def search(self, text: str, filter_: dict = None) -> List[dict]:
         vector = self.model.encode(text).tolist()
@@ -22,5 +23,6 @@ class NeuralSearcher:
             query_filter=Filter(**filter_) if filter_ else None,
             top=5
         )
+        print(search_result)
         payloads = [payload for point, payload in search_result]
         return payloads

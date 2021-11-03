@@ -10,7 +10,7 @@ class TextSearcher:
         self.highlight_field = 'description'
         self.index = SqliteSearch(
             indexed_fields=['description'],
-            path=os.path.join(DATA_DIR, 'startups.sqlite3'), is_read_only=True)
+            path=os.path.join(DATA_DIR, 'startups_websummit.sqlite3'), is_read_only=True)
 
     def highlight(self, record, query) -> dict:
         text = record[self.highlight_field]

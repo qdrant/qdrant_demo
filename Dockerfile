@@ -18,7 +18,7 @@ COPY poetry.lock pyproject.toml /code/
 RUN poetry config virtualenvs.create false \
   && poetry install --no-dev --no-interaction --no-ansi
 
-RUN python -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer("distilbert-base-nli-stsb-mean-tokens") '
+RUN python -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer("all-MiniLM-L12-v2") '
 
 # Creating folders, and files for a project:
 COPY . /code

@@ -1,21 +1,21 @@
 version: '3.7'
 
 services:
-  web:
+  web_summit:
     build: .
-    container_name: qdrant_demo_web
+    container_name: qdrant_demo_web_summit
     ports:
-      - 8000:8000
+      - 8005:8000
     environment:
-      - QDRANT_HOST=qdrant
+      - QDRANT_HOST=qdrant_web_summit
     depends_on:
-      - qdrant
+      - qdrant_web_summit
     networks:
       - qdrant-net
     volumes:
-      - ./data/startups.sqlite3:/code/data/startups.sqlite3
-  qdrant:
-    image: generall/qdrant:latest
+      - ./data/startups_websummit.sqlite3:/code/data/startups_websummit.sqlite3
+  qdrant_web_summit:
+    image: generall/qdrant:v0.4.2
 #    mem_limit: 450m
 #    ports:
 #    - 6333:6333
