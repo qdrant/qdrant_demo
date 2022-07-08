@@ -20,7 +20,11 @@ if __name__ == '__main__':
     with open(payload_path) as fd:
         payload = list(map(json.loads, fd))
 
-    qdrant_client.recreate_collection(collection_name=COLLECTION_NAME, vector_size=vector_size)
+    qdrant_client.recreate_collection(
+        collection_name=COLLECTION_NAME,
+        vector_size=vector_size,
+        distance="Cosine"
+    )
 
     qdrant_client.upload_collection(
         collection_name=COLLECTION_NAME,
