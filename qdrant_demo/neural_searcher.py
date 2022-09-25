@@ -16,10 +16,10 @@ class NeuralSearcher:
 
     def search(self, text: str, filter_: dict = None) -> List[dict]:
         vector = self.model.encode(text).tolist()
-        payloads = self.qdrant_client.search(
+        hits = self.qdrant_client.search(
             collection_name=self.collection_name,
             query_vector=vector,
             query_filter=Filter(**filter_) if filter_ else None,
             top=5
         )
-        return payloads
+        return [hit.payload for hit in hits]

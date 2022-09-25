@@ -3,6 +3,7 @@ import os
 import numpy as np
 
 from qdrant_client import QdrantClient
+from qdrant_client.models import VectorParams
 
 from qdrant_demo.config import DATA_DIR, COLLECTION_NAME, QDRANT_HOST, QDRANT_PORT
 
@@ -22,8 +23,7 @@ if __name__ == '__main__':
 
     qdrant_client.recreate_collection(
         collection_name=COLLECTION_NAME,
-        vector_size=vector_size,
-        distance="Cosine"
+        vectors_config=VectorParams(size=vector_size, distance="Cosine")
     )
 
     qdrant_client.upload_collection(
