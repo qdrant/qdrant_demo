@@ -84,7 +84,8 @@ class NeuralSearcher:
 
         return vectors.shape
 
-    def upload_collection(self, collection_name: str, payload_json_file_path: str, vector_file_path: str) -> bool:
+    @classmethod
+    def upload_collection(cls, collection_name: str, payload_json_file_path: str, vector_file_path: str) -> bool:
         """Uploads a collection to Qdrant.
 
         This method uses a pre-trained sentence encoder (DistilBERT) for Semantic Textual Similarity.
