@@ -13,7 +13,7 @@ services:
     volumes:
       - ./data/startups.sqlite3:/code/data/startups.sqlite3
   qdrant:
-    image: qdrant/qdrant:v0.10.1
+    image: qdrant/qdrant:v1.2.2
     ports:
     - 6333:6333
     volumes:

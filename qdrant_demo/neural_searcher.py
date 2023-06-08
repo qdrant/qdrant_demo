@@ -11,7 +11,7 @@ class NeuralSearcher:
 
     def __init__(self, collection_name: str):
         self.collection_name = collection_name
-        self.model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cpu')
+        self.model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
         self.qdrant_client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
 
     def search(self, text: str, filter_: dict = None) -> List[dict]:
