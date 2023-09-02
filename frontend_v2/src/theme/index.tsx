@@ -34,6 +34,7 @@ const globalStyles = (): CSSObject => {
       width: widths.screen,
       height: heights.screen,
       backgroundColor: "#F2F6FF",
+      fontFamily: "Roboto,Roboto Mono",
     },
   };
 };
