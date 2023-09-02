@@ -13,7 +13,7 @@ export function Logo({ size, ...others }: LogoProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_1_202)">
+      <g clipPath="url(#clip0_1_202)">
         <path
           d="M111.648 60.8924C111.648 63.7916 109.298 66.1422 106.399 66.1422H102.81V62.0436H102.682C102.298 62.5984 101.786 63.1748 101.145 63.7722C100.547 64.3275 99.822 64.8399 98.968 65.3097C98.1569 65.779 97.2388 66.1632 96.2142 66.4625C95.232 66.7611 94.2073 66.9102 93.1401 66.9102C90.8346 66.9102 88.7428 66.526 86.864 65.7575C84.9853 64.9464 83.3632 63.8362 81.9968 62.4273C80.6735 60.9758 79.6488 59.2682 78.9228 57.3045C78.1968 55.3401 77.8341 53.1842 77.8341 50.8362C77.8341 48.6588 78.1543 46.5879 78.7947 44.6236C79.4777 42.6173 80.4173 40.8451 81.6126 39.3081C82.8509 37.7714 84.3449 36.5546 86.0955 35.658C87.8462 34.7187 89.8315 34.2491 92.0514 34.2491C94.0583 34.2491 95.9155 34.5693 97.6231 35.2097C99.3737 35.8074 100.804 36.8534 101.914 38.348H102.042V22.9758C102.042 20.0767 104.392 17.7265 107.291 17.7265H111.648V60.8924ZM102.81 50.5795C102.81 48.2315 102.128 46.3318 100.761 44.8798C99.4378 43.4283 97.559 42.7024 95.1254 42.7024C92.6918 42.7024 90.7921 43.4283 89.4257 44.8798C88.1023 46.3318 87.4404 48.2315 87.4404 50.5795C87.4404 52.9281 88.1023 54.8278 89.4257 56.2793C90.7921 57.7312 92.6918 58.4572 95.1254 58.4572C97.559 58.4572 99.4378 57.7312 100.761 56.2793C102.128 54.8278 102.81 52.9281 102.81 50.5795Z"
           fill="#DC244C"
@@ -35,50 +35,50 @@ export function Logo({ size, ...others }: LogoProps) {
           fill="#DC244C"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M54.4829 73.538L52.8877 29.5569L49.9987 17.9617L69.2821 20.0031V73.2052L57.5026 80.0036L54.4829 73.538Z"
           fill="#24386C"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M69.2808 20L57.5013 26.8031L33.1926 21.4709L4.73962 33.0556L-0.000854492 20L17.3167 9.99998L34.6396 -1.52588e-05L51.9577 9.99998L69.2808 20Z"
           fill="#7589BE"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M0 20L11.7795 26.8031L18.6079 47.1107L41.6635 65.558L34.6409 80L17.3181 69.9995L0 59.9995V20Z"
           fill="#B2BFE8"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M42.4503 54.8871L34.6409 66.4V80.001L45.7222 73.6073L51.4319 65.0814"
           fill="#24386C"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M34.6457 52.8031L23.5596 33.6089L25.9474 27.2472L35.0251 22.846L45.7222 33.6092L34.6457 52.8031Z"
           fill="#7589BE"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M23.5596 33.6073L34.6409 40.001V52.7989L24.3921 53.2399L18.1926 45.3239L23.5596 33.6073Z"
           fill="#B2BFE8"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M34.6409 40L45.7222 33.6068L53.264 46.1643L44.1375 53.705L34.6409 52.7983V40Z"
           fill="#24386C"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M45.7223 73.6063L57.5018 80.0005V26.8037L46.0687 20.2052L34.6409 13.6068L23.2078 20.2052L11.78 26.8037V53.2021L23.2078 59.8005L34.6409 66.3995L45.7223 60V73.6063ZM45.7223 46.3989L34.6409 52.7979L23.5596 46.3989V33.6063L34.6409 27.2073L45.7223 33.6063V46.3989Z"
           fill="#DC244C"
         />
@@ -96,8 +96,8 @@ export function Logo({ size, ...others }: LogoProps) {
           y2="55.4016"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FF3364" />
-          <stop offset="1" stop-color="#C91540" stop-opacity="0" />
+          <stop stopColor="#FF3364" />
+          <stop offset="1" stopColor="#C91540" stopOpacity="0" />
         </linearGradient>
         <clipPath id="clip0_1_202">
           <rect width="237.186" height="80" fill="white" />

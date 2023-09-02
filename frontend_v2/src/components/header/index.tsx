@@ -7,7 +7,7 @@ import {
   rem,
   Tooltip,
 } from "@mantine/core";
-import { IconBrandGithub, IconBook2, IconSettings } from "@tabler/icons-react";
+import { IconBrandGithub, IconBook2 } from "@tabler/icons-react";
 import { Logo } from "../Logo";
 
 const useStyles = createStyles((theme) => ({
@@ -22,25 +22,29 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  social: {
+  links: {
     width: rem(260),
-
     [theme.fn.smallerThan("sm")]: {
       width: "auto",
       marginLeft: "auto",
+    },
+  },
+  link: {
+    transition: "transform .3s ease-in-out",
+    "&:hover ": {
+      transform: "scale(1.3)",
     },
   },
 }));
 
 export default function Header() {
   const { classes } = useStyles();
-
   return (
-    <MantineHeader height={56} mb={120}>
+    <MantineHeader height={56} fixed bg={"Neutral.0"}     >
       <Container className={classes.inner}>
         <Logo size={35} />
 
-        <Group spacing={3} className={classes.social} position="right" noWrap>
+        <Group spacing={10} className={classes.links} position="right" noWrap>
           <Tooltip label="View Code" position="bottom" withArrow>
             <ActionIcon
               size="lg"
@@ -49,6 +53,7 @@ export default function Header() {
               component="a"
               href="https://github.com/qdrant/qdrant_demo"
               target="_blank"
+              className={classes.link}
             >
               <IconBrandGithub size="1.1rem" stroke={1.5} />
             </ActionIcon>
@@ -61,13 +66,9 @@ export default function Header() {
               component="a"
               href="https://github.com/qdrant/qdrant_demo/blob/master/README.md"
               target="_blank"
+              className={classes.link}
             >
               <IconBook2 size="1.1rem" stroke={1.5} />
-            </ActionIcon>
-          </Tooltip>
-          <Tooltip label="Settings" position="bottom" withArrow>
-            <ActionIcon size="lg" color="pink" variant="light">
-              <IconSettings size="1.1rem" stroke={1.5} />
             </ActionIcon>
           </Tooltip>
         </Group>

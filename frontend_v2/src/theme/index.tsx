@@ -1,5 +1,30 @@
 import { CSSObject, MantineThemeOverride } from "@mantine/core";
 import { heights, sizing, widths } from "./sizing";
+import { Tuple, DefaultMantineColor } from "@mantine/core";
+
+type ExtendedCustomColors =
+  | "Primary"
+  | "P500"
+  | "secondary"
+  | "blue"  
+  | "purple"
+  | "teal"
+  | "Neutral"
+  | "N500"
+  | "Error"
+  | "E500"
+  | "Success"
+  | "S500"
+  | "Warning"
+  | "W500"
+  | "pink"
+  | DefaultMantineColor;
+
+declare module "@mantine/core" {
+  export interface MantineThemeColorsOverride {
+    colors: Record<ExtendedCustomColors, Tuple<string, 10>>;
+  }
+}
 
 const globalStyles = (): CSSObject => {
   return {
@@ -21,8 +46,19 @@ const myTheme: MantineThemeOverride = {
     Primary: ["#FFC2D6", "#F5587F", "#DC244C", "#A31030", "#660223"],
     P500: ["#DC244C"],
     secondary: ["#724CEF", "#148BF4", "#009999"],
+    blue: [
+      "#E7F5FF",
+      "#D0EBFF",
+      "#A5D8FF",
+      "#74C0FC",
+      "#4DABF7",
+      "#339AF0",
+      "#148BF4",
+      "#228BE6",
+      "#1C7ED6",
+      "#1971C2",
+    ],
     purple: ["#724CEF"],
-    blue: ["#148BF4"],
     teal: ["#009999"],
     Neutral: [
       "#F2F6FF",
@@ -42,8 +78,21 @@ const myTheme: MantineThemeOverride = {
     Success: ["#D1FADF", "#12B765", "#085232"],
     S500: ["#12B765"],
     Warning: ["#FEE4C7", "#F5870A", "#662F0A"],
-    W500: ["#F5870A"],
+    W500: ["#F5870A"], 
+    pink: [
+      "#FFF0F6",
+      "#FFDEEB",
+      "#FCC2D7",
+      "#FAA2C1",
+      "#F783AC",
+      "#F06595",
+      "#DC244C",
+      "#D6336C",
+      "#C2255C",
+      "#A61E4D",
+    ],
   },
+  primaryColor: "Primary",
   headings: {
     fontFamily: "Roboto,Roboto Mono",
     sizes: {
@@ -73,10 +122,9 @@ const myTheme: MantineThemeOverride = {
       },
     },
   },
-  primaryColor: 'Primary',
-	spacing: {
-		xxs: '0.2rem',
-	},
+  spacing: {
+    xxs: "0.2rem",
+  },
   other: {
     sizing,
     heights,
