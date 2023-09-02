@@ -8,8 +8,10 @@ import {
   createStyles,
   Tooltip,
   ActionIcon,
+  Box,
 } from "@mantine/core";
 import { IconExternalLink } from "@tabler/icons-react";
+import DOMPurify from 'dompurify';
 
 type StartupCardProps = {
   data: {
@@ -48,21 +50,32 @@ export function StartupCard(prop: StartupCardProps) {
       className={classes.card}
     >
       <Card.Section>
-        <Image height={200} src={data.images} withPlaceholder alt={data.alt} p={10}/>
+        <Image
+          height={200}
+          src={data.images}
+          withPlaceholder
+          alt={data.alt}
+          p={10}
+        />
       </Card.Section>
 
-      <Group position="apart" mt="md" mb="xs">
+      <Box mt="md" mb="xs">
         <Text weight={500}>{data.name}</Text>
         <Badge color="blue" variant="light">
           {data.city}
         </Badge>
-      </Group>
+      </Box>
 
-      <Text size="sm" color="dimmed">
-        {data.description.length > 100
-          ? data.description.substring(0, 80) + "..."
-          : data.description}
-      </Text>
+      <Text
+        size="sm"
+        color="dimmed"
+        dangerouslySetInnerHTML={{
+          __html:
+          DOMPurify.sanitize(data.description.length > 100
+              ? data.description.substring(0, 80) + "..."
+              : data.description),
+        }}
+      />
 
       <Group position="apart" mt="md" mb="xs">
         <Button

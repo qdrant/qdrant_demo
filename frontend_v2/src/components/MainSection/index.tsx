@@ -32,6 +32,7 @@ export function Main() {
 
   const onClickFindSimilar = (data: string) => {
     if (data) {
+      resetData();
       setQuery(data);
       getSearch(data, isNeural);
     }
@@ -84,7 +85,11 @@ export function Main() {
                 )}
                 <Switch
                   checked={isNeural}
-                  onChange={(event) => setIsNeural(event.currentTarget.checked)}
+                  onChange={(event) => {
+                    setIsNeural(event.currentTarget.checked);
+                    resetData();
+                    getSearch(query, event.currentTarget.checked);
+                  }}
                   color="Primary.2"
                 />
               </Box>
@@ -135,7 +140,7 @@ export function Main() {
             <Grid>
               {data.result.length > 0 ? (
                 data.result.map((item) => (
-                  <Grid.Col md={6} lg={3} key={item.Index}>
+                  <Grid.Col md={6} lg={4} key={item.Index}>
                     <StartupCard
                       data={item}
                       onClickFindSimilar={onClickFindSimilar}

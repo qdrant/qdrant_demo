@@ -95,7 +95,7 @@ const myTheme: MantineThemeOverride = {
   },
   primaryColor: "Primary",
   headings: {
-    fontFamily: "Roboto,Roboto Mono",
+    fontFamily: "Roboto , Roboto Mono",
     sizes: {
       h1: {
         fontSize: "5rem",
