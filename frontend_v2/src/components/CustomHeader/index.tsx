@@ -40,7 +40,9 @@ const useStyles = createStyles((theme) => ({
 export function CustomHeader() {
   const { classes } = useStyles();
   return (
-    <MantineHeader height={56} fixed bg={"Neutral.0"}     >
+    <MantineHeader height={56} bg={"Neutral.0"} fixed sx={{
+      zIndex: 100,
+    }}  >
       <Container className={classes.inner}>
         <Logo size={35} />
 
@@ -71,6 +73,19 @@ export function CustomHeader() {
               <IconBook2 size="1.1rem" stroke={1.5} />
             </ActionIcon>
           </Tooltip>
+          {/* <Tooltip label="View Docs" position="bottom" withArrow>
+            <ActionIcon
+              size="lg"
+              color="pink"
+              variant="light"
+              component="a"
+              href="https://github.com/qdrant/qdrant_demo/blob/master/README.md"
+              target="_blank"
+              className={classes.link}
+            >
+              <IconInfoCircle size="1.1rem" stroke={1.5} />
+            </ActionIcon>
+          </Tooltip> */}
         </Group>
       </Container>
     </MantineHeader>

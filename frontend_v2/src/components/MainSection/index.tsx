@@ -10,12 +10,14 @@ import {
   Grid,
   ActionIcon,
   Image,
+  Group,
+  Modal,
 } from "@mantine/core";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { useStyles } from "./style";
 import useMountedState from "@/hooks/useMountedState";
 import { useGetSearchResult } from "@/hooks/useGetSearchResult";
-import { getHotkeyHandler } from "@mantine/hooks";
+import { getHotkeyHandler, useDisclosure } from "@mantine/hooks";
 import { StartupCard } from "../StartupCard";
 
 export function Main() {
@@ -23,6 +25,7 @@ export function Main() {
   const [query, setQuery] = useMountedState("");
   const { data, error, loading, getSearch, resetData } = useGetSearchResult();
   const [isNeural, setIsNeural] = useMountedState(true);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const handleSubmit = () => {
     if (query) {
@@ -52,9 +55,7 @@ export function Main() {
         <Container p={0} size={600}>
           <Text size="lg" color="dimmed" className={classes.description}>
             This demo uses short descriptions of startups to perform a semantic
-            search. Each startup description converted into a vector using a
-            pre-trained SentenceTransformer model and uploaded to the Qdrant
-            vector search engine.
+            search.
           </Text>
         </Container>
         <Container p={0} size={600} className={classes.controls}>
@@ -99,16 +100,26 @@ export function Main() {
             onChange={(event) => setQuery(event.currentTarget.value)}
             onKeyDown={getHotkeyHandler([["Enter", handleSubmit]])}
           />
-          <Button
-            className={classes.control}
-            size="md"
-            color="Primary.2"
-            disabled={loading}
-            onClick={handleSubmit}
-            rightIcon={loading && <Loader size="xs" color="white" />}
-          >
-            Search
-          </Button>
+          <Group position="right" mt="md" mb="xs">
+            <Button
+              className={classes.control}
+              size="md"
+              color="Primary.2"
+              disabled={loading}
+              onClick={handleSubmit}
+              rightIcon={loading && <Loader size="xs" color="white" />}
+            >
+              Search
+            </Button>
+            <Button
+              className={classes.control}
+              size="md"
+              variant="default"
+              onClick={open}
+            >
+              How it works?
+            </Button>
+          </Group>
         </Container>
         <Container className={classes.viewResult}>
           {loading ? (
@@ -174,24 +185,48 @@ export function Main() {
               )}
             </Grid>
           ) : (
-            <Container p={0} size={600}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Image maw={240} src="./home.gif" alt="No results found." />
+
               <Text size="lg" color="dimmed" className={classes.description}>
-                You can turn neural search on and off to compare the result with
-                regular full-text search. Try to use startup description to find
-                similar ones.
+                Enter a query to start searching.
               </Text>
-              <Text size="lg" color="dimmed" className={classes.description}>
-                You will discover that given a short query - a full-text search
-                provides more precise results but lower recall when a neural
-                search may find close and fuzzy matches. For similarity search
-                and longer queries - full-text search struggles to catch the
-                meaning of the query and return noisy results, while neural
-                search finds better and semantically closer results.
-              </Text>
-            </Container>
+            </Box>
           )}
         </Container>
       </div>
+
+      <Modal opened={opened} onClose={close} title="How it works?" centered>
+        <Modal.Body>
+          <Text size="lg" color="dimmed" className={classes.description}>
+            This demo uses short descriptions of startups to perform a semantic
+            search. Each startup description converted into a vector using a
+            pre-trained SentenceTransformer model and uploaded to the Qdrant
+            vector search engine.
+          </Text>
+          <Text size="lg" color="dimmed" className={classes.description}>
+            You can turn neural search on and off to compare the result with
+            regular full-text search. Try to use startup description to find
+            similar ones.
+          </Text>
+          <Text size="lg" color="dimmed" className={classes.description}>
+            You will discover that given a short query - a full-text search
+            provides more precise results but lower recall when a neural search
+            may find close and fuzzy matches. For similarity search and longer
+            queries - full-text search struggles to catch the meaning of the
+            query and return noisy results, while neural search finds better and
+            semantically closer results.
+          </Text>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }
