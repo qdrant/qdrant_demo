@@ -1,15 +1,11 @@
 import { Main } from "@/components/MainSection";
-import Header from "@/components/Header";
+import { CustomHeader } from "@/components/CustomHeader";
 import { Box } from "@mantine/core";
 
-
-
 export default function Home() {
-
-
   return (
     <Box>
-      <Header />
+      <CustomHeader />
       <Main />
     </Box>
   );

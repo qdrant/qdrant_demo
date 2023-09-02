@@ -37,7 +37,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export function CustomHeader() {
   const { classes } = useStyles();
   return (
     <MantineHeader height={56} fixed bg={"Neutral.0"}     >
