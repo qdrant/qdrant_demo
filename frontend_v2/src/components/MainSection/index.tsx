@@ -10,7 +10,6 @@ import {
   Grid,
   ActionIcon,
   Image,
-  Group,
   Modal,
 } from "@mantine/core";
 import { IconSearch, IconX } from "@tabler/icons-react";
@@ -58,7 +57,8 @@ export function Main() {
             search.
           </Text>
         </Container>
-        <Container p={0} size={600} className={classes.controls}>
+
+        <Container p={0} size={600} mt={30}>
           <TextInput
             icon={<IconSearch />}
             placeholder="Enter a query"
@@ -89,7 +89,7 @@ export function Main() {
                   onChange={(event) => {
                     setIsNeural(event.currentTarget.checked);
                     resetData();
-                    getSearch(query, event.currentTarget.checked);
+                    query && getSearch(query, event.currentTarget.checked);
                   }}
                   color="Primary.2"
                 />
@@ -100,7 +100,7 @@ export function Main() {
             onChange={(event) => setQuery(event.currentTarget.value)}
             onKeyDown={getHotkeyHandler([["Enter", handleSubmit]])}
           />
-          <Group position="right" mt="md" mb="xs">
+          <Box className={classes.controls}>
             <Button
               className={classes.control}
               size="md"
@@ -119,7 +119,7 @@ export function Main() {
             >
               How it works?
             </Button>
-          </Group>
+          </Box>
         </Container>
         <Container className={classes.viewResult}>
           {loading ? (

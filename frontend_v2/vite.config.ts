@@ -15,9 +15,8 @@ export default defineConfig(() => {
         "/api": {
           target: "https://demo.qdrant.tech",
           changeOrigin: true,
-          secure: true,
         },
       },
-    },
+    }
   };
 });

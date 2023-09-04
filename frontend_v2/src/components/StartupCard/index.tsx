@@ -9,9 +9,10 @@ import {
   Tooltip,
   ActionIcon,
   Box,
+  rem,
 } from "@mantine/core";
 import { IconExternalLink } from "@tabler/icons-react";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 type StartupCardProps = {
   data: {
@@ -51,16 +52,32 @@ export function StartupCard(prop: StartupCardProps) {
     >
       <Card.Section>
         <Image
-          height={200}
+          h={"100%"}
           src={data.images}
           withPlaceholder
-          alt={data.alt}
+          alt={"No results found."}
           p={10}
+          radius="md"
+          placeholder={
+            <Image src={"./error.gif"} alt="No results found." radius="md" />
+          }
+          sx={{
+            "& .mantine-Image-placeholder": {
+              backgroundColor: "white",
+              position: "relative",
+              marginTop: "-27px",
+            },
+            "& .mantine-Image-image": {
+              border: "1px solid #e3e3e3",
+            },
+          }}
         />
       </Card.Section>
 
       <Box mt="md" mb="xs">
-        <Text weight={500}>{data.name}</Text>
+        <Text weight={500} size={rem(25)}>
+          {data.name}
+        </Text>
         <Badge color="blue" variant="light">
           {data.city}
         </Badge>
@@ -70,10 +87,11 @@ export function StartupCard(prop: StartupCardProps) {
         size="sm"
         color="dimmed"
         dangerouslySetInnerHTML={{
-          __html:
-          DOMPurify.sanitize(data.description.length > 100
+          __html: DOMPurify.sanitize(
+            data.description.length > 100
               ? data.description.substring(0, 80) + "..."
-              : data.description),
+              : data.description
+          ),
         }}
       />
 

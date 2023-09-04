@@ -94,35 +94,6 @@ const myTheme: MantineThemeOverride = {
     ],
   },
   primaryColor: "Primary",
-  headings: {
-    fontFamily: "Roboto , Roboto Mono",
-    sizes: {
-      h1: {
-        fontSize: "5rem",
-        lineHeight: "6rem",
-      },
-      h2: {
-        fontSize: "4rem",
-        lineHeight: "4.75rem",
-      },
-      h3: {
-        fontSize: "3.5rem",
-        lineHeight: "4.25rem",
-      },
-      h4: {
-        fontSize: "3rem",
-        lineHeight: "3.5rem",
-      },
-      h5: {
-        fontSize: "2.5rem",
-        lineHeight: "3rem",
-      },
-      h6: {
-        fontSize: "2rem",
-        lineHeight: "2.5rem",
-      },
-    },
-  },
   spacing: {
     xxs: "0.2rem",
   },
