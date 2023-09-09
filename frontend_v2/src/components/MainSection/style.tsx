@@ -17,14 +17,12 @@ export const useStyles = createStyles((theme) => ({
     zIndex: 1,
   },
   title: {
+    color: theme.colors.Neutral[7],
     textAlign: "center",
     fontWeight: 700,
-    fontSize: rem(40),
-    letterSpacing: -1,
-    marginBottom: theme.spacing.xs,
-    [theme.fn.smallerThan("xs")]: {
-      fontSize: rem(30),
-    },
+    fontSize: "2.5rem",
+    fontStyle: "normal",
+    lineHeight: "3rem",
   },
 
   highlight: {
@@ -33,55 +31,39 @@ export const useStyles = createStyles((theme) => ({
   },
 
   description: {
+    paddingTop: theme.spacing.xs,
     textAlign: "center",
-
-    [theme.fn.smallerThan("xs")]: {
-      fontSize: theme.fontSizes.md,
-    },
+    color: theme.colors.Neutral[6],
+    fontSize: theme.other.paragraph.sizes.P18.fontSize,
+    lineHeight: theme.other.paragraph.sizes.P18.lineHeight,
+    fontWeight: theme.other.paragraph.sizes.P18.fontWeight,
   },
 
   controls: {
-    marginTop: theme.spacing.lg,
-    display: "flex",
-    justifyContent: "center",
-    [theme.fn.smallerThan("xs")]: {
-      flexDirection: "column",
-    },
+    textAlign: "center",
   },
 
   control: {
-    "&:not(:first-of-type)": {
-      marginLeft: theme.spacing.md,
-    },
-
-    [theme.fn.smallerThan("xs")]: {
-      height: rem(42),
-      fontSize: theme.fontSizes.md,
-      "&:not(:first-of-type)": {
-        marginTop: theme.spacing.md,
-        marginLeft: 0,
-      },
-    },
+    backgroundColor: theme.colors.Neutral[1],
+    marginTop: theme.spacing.xl,
+    border: `1px solid ${theme.colors.Neutral[2]}`,
   },
   inputRightSection:{
-    display: "flex",
-    alignItems: "center",
-    gap: theme.spacing.xs,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginRight: 5,
-    zIndex: 1,
-    backgroundColor: "white",
+
   },
   inputArea: {
     width: "100%",
-    [theme.fn.smallerThan("xs")]: {
-      height: rem(28),
-      fontSize: theme.fontSizes.md,
+    marginTop: theme.spacing.xl,
+    "& .mantine-TextInput-input":{
+      border: `1px solid ${theme.colors.Neutral[2]}`,
+      color: theme.colors.Neutral[6],
+      "::-webkit-input-placeholder":{
+        color: theme.colors.Neutral[6],
+      }
     },
-    "& .mantine-TextInput-rightSection	":{
-      width: "auto",
-    }
+    
+   
+    
   },
   viewResult:{
     paddingTop: theme.spacing.md,

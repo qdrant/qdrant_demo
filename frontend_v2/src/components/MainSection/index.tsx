@@ -11,6 +11,7 @@ import {
   ActionIcon,
   Image,
   Modal,
+  SegmentedControl,
 } from "@mantine/core";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { useStyles } from "./style";
@@ -50,57 +51,80 @@ export function Main() {
           </Text>{" "}
           with Qdrant
         </Title>
-
-        <Container p={0} size={600}>
-          <Text size="lg" color="dimmed" className={classes.description}>
-            This demo uses short descriptions of startups to perform a semantic
-            search.
-          </Text>
-        </Container>
-
-        <Container p={0} size={600} mt={30}>
+        <Text size="lg" color="dimmed" className={classes.description}>
+          This demo uses short descriptions of startups to perform a semantic
+          search.
+        </Text>
+        <Container p={0} size={600} className={classes.controls}>
+          <SegmentedControl
+            radius={30}
+            data={[
+              { label: "Neural", value: "neural" },
+              { label: "Text", value: "text" },
+            ]}
+            size="md"
+            color="Primary.2"
+            className={classes.control}
+            onChange={(value) => {
+              setIsNeural(value === "neural");
+              resetData();
+              query && getSearch(query, value === "neural");
+            }}
+          />
           <TextInput
-            icon={<IconSearch />}
+            radius={30}
+            size="md"
+            icon={<IconSearch color="#102252" />}
             placeholder="Enter a query"
             rightSection={
-              <Box className={classes.inputRightSection}>
-                {loading && <Loader size="xs" color="Primary.2" />}
-                {query && (
-                  <ActionIcon
-                    onClick={() => {
-                      setQuery("");
-                      resetData();
-                    }}
-                    color="Primary.2"
-                    sx={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    <IconX size="1.1rem" stroke={1.5} />
-                  </ActionIcon>
-                )}
-                {isNeural ? (
-                  <Text color="Primary.2">Neural</Text>
-                ) : (
-                  <Text>Text</Text>
-                )}
-                <Switch
-                  checked={isNeural}
-                  onChange={(event) => {
-                    setIsNeural(event.currentTarget.checked);
-                    resetData();
-                    query && getSearch(query, event.currentTarget.checked);
-                  }}
-                  color="Primary.2"
-                />
-              </Box>
+              // <Box className={classes.inputRightSection}>
+              //   {loading && <Loader size="xs" color="Primary.2" />}
+              //   {query && (
+              //     <ActionIcon
+              //       onClick={() => {
+              //         setQuery("");
+              //         resetData();
+              //       }}
+              //       color="Primary.2"
+              //       sx={{
+              //         cursor: "pointer",
+              //       }}
+              //     >
+              //       <IconX size="1.1rem" stroke={1.5} />
+              //     </ActionIcon>
+              //   )}
+              //   {isNeural ? (
+              //     <Text color="Primary.2">Neural</Text>
+              //   ) : (
+              //     <Text>Text</Text>
+              //   )}
+              //   <Switch
+              //     checked={isNeural}
+              //     onChange={(event) => {
+              //       setIsNeural(event.currentTarget.checked);
+              //       resetData();
+              //       query && getSearch(query, event.currentTarget.checked);
+              //     }}
+              //     color="Primary.2"
+              //   />
+              // </Box>
+              <Button
+                className={classes.inputRightSection}
+                radius={30}
+                size={"md"}
+                variant="filled"
+                color="Primary.2"
+              >
+                Search
+              </Button>
             }
             className={classes.inputArea}
             value={query}
+            required
             onChange={(event) => setQuery(event.currentTarget.value)}
             onKeyDown={getHotkeyHandler([["Enter", handleSubmit]])}
           />
-          <Box className={classes.controls}>
+          {/* <Box className={classes.controls}>
             <Button
               className={classes.control}
               size="md"
@@ -119,7 +143,7 @@ export function Main() {
             >
               How it works?
             </Button>
-          </Box>
+          </Box> */}
         </Container>
         <Container className={classes.viewResult}>
           {loading ? (
