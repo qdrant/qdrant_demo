@@ -7,9 +7,14 @@ import {
   rem,
   Tooltip,
   Button,
+  Modal,
+  Text,
+  Title,
+  Image,
 } from "@mantine/core";
 import { IconBrandGithub, IconBook2 } from "@tabler/icons-react";
 import { Logo } from "../Logo";
+import { useDisclosure } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -45,10 +50,95 @@ const useStyles = createStyles((theme) => ({
     lineHeight: "1rem",
     textDecorationLine: "underline",
   },
+  description: {
+    ":not(:first-child)": {
+      paddingTop: "1rem",
+    },
+    paddingBottom: "1rem",
+    textAlign: "center",
+    color: theme.colors.Neutral[6],
+    fontSize: theme.other.paragraph.sizes.P14.fontSize,
+    lineHeight: theme.other.paragraph.sizes.P14.lineHeight,
+    fontWeight: theme.other.paragraph.sizes.P14.fontWeight,
+  },
+  modalHeader: {
+    fontSize: "2rem",
+    fontWeight: 700,
+    lineHeight: "2.5rem",
+    letterSpacing: "0em",
+    textAlign: "center",
+    width: "100%",
+  },
+  highlight: {
+    color: theme.colors[theme.primaryColor][2],
+  },
+  subHeading: {
+    fontSize: "1.125rem",
+    fontWeight: 600,
+    lineHeight: "1.6875rem",
+    letterSpacing: "0em",
+    textAlign: "center",
+    width: "100%",
+    paddingTop: "1rem",
+  },
 }));
 
 export function CustomHeader() {
   const { classes } = useStyles();
+  const [opened, { open, close }] = useDisclosure(false);
+  // <Box className={classes.inputRightSection}>
+  //   {loading && <Loader size="xs" color="Primary.2" />}
+  //   {query && (
+  //     <ActionIcon
+  //       onClick={() => {
+  //         setQuery("");
+  //         resetData();
+  //       }}
+  //       color="Primary.2"
+  //       sx={{
+  //         cursor: "pointer",
+  //       }}
+  //     >
+  //       <IconX size="1.1rem" stroke={1.5} />
+  //     </ActionIcon>
+  //   )}
+  //   {isNeural ? (
+  //     <Text color="Primary.2">Neural</Text>
+  //   ) : (
+  //     <Text>Text</Text>
+  //   )}
+  //   <Switch
+  //     checked={isNeural}
+  //     onChange={(event) => {
+  //       setIsNeural(event.currentTarget.checked);
+  //       resetData();
+  //       query && getSearch(query, event.currentTarget.checked);
+  //     }}
+  //     color="Primary.2"
+  //   />
+  // </Box>
+  {
+    /* <Box className={classes.controls}>
+            <Button
+              className={classes.control}
+              size="md"
+              color="Primary.2"
+              disabled={loading}
+              onClick={handleSubmit}
+              rightIcon={loading && <Loader size="xs" color="white" />}
+            >
+              Search
+            </Button>
+            <Button
+              className={classes.control}
+              size="md"
+              variant="default"
+              onClick={open}
+            >
+              How it works?
+            </Button>
+          </Box> */
+  }
   return (
     <MantineHeader
       height={56}
@@ -66,6 +156,7 @@ export function CustomHeader() {
             color="Neutral.6"
             variant="subtle"
             className={classes.modalBtn}
+            onClick={open}
           >
             How it works?
           </Button>
@@ -100,6 +191,44 @@ export function CustomHeader() {
           </Tooltip>
         </Group>
       </Container>
+      <Modal opened={opened} onClose={close} centered size={"lg"}>
+        <Modal.Header
+          sx={{
+            flexDirection: "column",
+          }}
+        >
+          <Title className={classes.modalHeader}>
+            How does{" "}
+            <Text component="span" className={classes.highlight} inherit>
+              Semantic search
+            </Text>{" "}
+            work?
+          </Title>
+          <Text className={classes.subHeading}>
+            This demo uses short descriptions of startups to perform a semantic
+            search.
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Text size="lg" color="dimmed" className={classes.description}>
+            Each startup description is converted into a vector using a
+            pre-trained SentenceTransformer model and uploaded to the Qdrant
+            vector search engine. You can turn neural search on and off to
+            compare the result with regular full-text search. Try to use startup
+            description to find similar ones.
+          </Text>
+
+          <Image src="/workflow.svg" />
+          <Text size="lg" color="dimmed" className={classes.description}>
+            You will discover that given a short query - a full-text search
+            provides more precise results but lower recall when a neural search
+            may find close and fuzzy matches. For similarity search and longer
+            queries - full-text search struggles to catch the meaning of the
+            query and return noisy results, while neural search finds better and
+            semantically closer results.
+          </Text>
+        </Modal.Body>
+      </Modal>
     </MantineHeader>
   );
 }

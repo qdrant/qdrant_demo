@@ -63,7 +63,6 @@ export const useStyles = createStyles((theme) => ({
     },
     
    
-    
   },
   viewResult:{
     paddingTop: theme.spacing.md,

@@ -142,6 +142,7 @@ const myTheme: MantineThemeOverride = {
         P14: {
           fontSize: "0.875rem",
           lineHeight: "1.3125rem",
+          fontWeight: 400,
         },
         P12: {
           fontSize: "0.75rem",

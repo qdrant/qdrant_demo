@@ -5,19 +5,16 @@ import {
   Container,
   TextInput,
   Loader,
-  Switch,
   Box,
   Grid,
-  ActionIcon,
   Image,
-  Modal,
   SegmentedControl,
 } from "@mantine/core";
-import { IconSearch, IconX } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { useStyles } from "./style";
 import useMountedState from "@/hooks/useMountedState";
 import { useGetSearchResult } from "@/hooks/useGetSearchResult";
-import { getHotkeyHandler, useDisclosure } from "@mantine/hooks";
+import { getHotkeyHandler } from "@mantine/hooks";
 import { StartupCard } from "../StartupCard";
 
 export function Main() {
@@ -25,7 +22,6 @@ export function Main() {
   const [query, setQuery] = useMountedState("");
   const { data, error, loading, getSearch, resetData } = useGetSearchResult();
   const [isNeural, setIsNeural] = useMountedState(true);
-  const [opened, { open, close }] = useDisclosure(false);
 
   const handleSubmit = () => {
     if (query) {
@@ -77,37 +73,6 @@ export function Main() {
             icon={<IconSearch color="#102252" />}
             placeholder="Enter a query"
             rightSection={
-              // <Box className={classes.inputRightSection}>
-              //   {loading && <Loader size="xs" color="Primary.2" />}
-              //   {query && (
-              //     <ActionIcon
-              //       onClick={() => {
-              //         setQuery("");
-              //         resetData();
-              //       }}
-              //       color="Primary.2"
-              //       sx={{
-              //         cursor: "pointer",
-              //       }}
-              //     >
-              //       <IconX size="1.1rem" stroke={1.5} />
-              //     </ActionIcon>
-              //   )}
-              //   {isNeural ? (
-              //     <Text color="Primary.2">Neural</Text>
-              //   ) : (
-              //     <Text>Text</Text>
-              //   )}
-              //   <Switch
-              //     checked={isNeural}
-              //     onChange={(event) => {
-              //       setIsNeural(event.currentTarget.checked);
-              //       resetData();
-              //       query && getSearch(query, event.currentTarget.checked);
-              //     }}
-              //     color="Primary.2"
-              //   />
-              // </Box>
               <Button
                 className={classes.inputRightSection}
                 radius={30}
@@ -124,26 +89,6 @@ export function Main() {
             onChange={(event) => setQuery(event.currentTarget.value)}
             onKeyDown={getHotkeyHandler([["Enter", handleSubmit]])}
           />
-          {/* <Box className={classes.controls}>
-            <Button
-              className={classes.control}
-              size="md"
-              color="Primary.2"
-              disabled={loading}
-              onClick={handleSubmit}
-              rightIcon={loading && <Loader size="xs" color="white" />}
-            >
-              Search
-            </Button>
-            <Button
-              className={classes.control}
-              size="md"
-              variant="default"
-              onClick={open}
-            >
-              How it works?
-            </Button>
-          </Box> */}
         </Container>
         <Container className={classes.viewResult}>
           {loading ? (
@@ -227,30 +172,6 @@ export function Main() {
           )}
         </Container>
       </div>
-
-      <Modal opened={opened} onClose={close} title="How it works?" centered>
-        <Modal.Body>
-          <Text size="lg" color="dimmed" className={classes.description}>
-            This demo uses short descriptions of startups to perform a semantic
-            search. Each startup description converted into a vector using a
-            pre-trained SentenceTransformer model and uploaded to the Qdrant
-            vector search engine.
-          </Text>
-          <Text size="lg" color="dimmed" className={classes.description}>
-            You can turn neural search on and off to compare the result with
-            regular full-text search. Try to use startup description to find
-            similar ones.
-          </Text>
-          <Text size="lg" color="dimmed" className={classes.description}>
-            You will discover that given a short query - a full-text search
-            provides more precise results but lower recall when a neural search
-            may find close and fuzzy matches. For similarity search and longer
-            queries - full-text search struggles to catch the meaning of the
-            query and return noisy results, while neural search finds better and
-            semantically closer results.
-          </Text>
-        </Modal.Body>
-      </Modal>
     </Container>
   );
 }
