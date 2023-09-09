@@ -1,123 +1,139 @@
 import {
-  Card,
   Image,
   Text,
   Badge,
   Button,
   Group,
   createStyles,
-  Tooltip,
-  ActionIcon,
-  Box,
-  rem,
+  Grid,
 } from "@mantine/core";
 import { IconExternalLink } from "@tabler/icons-react";
 import DOMPurify from "dompurify";
 
 type StartupCardProps = {
-  data: {
-    Index: number;
-    _1: number;
-    name: string;
-    images: string;
-    alt: string;
-    description: string;
-    link: string;
-    city: string;
-  };
+  Index: number;
+  name: string;
+  images: string;
+  alt: string;
+  description: string;
+  link: string;
+  city: string;
   onClickFindSimilar: (data: string) => void;
 };
-export const useStyles = createStyles(() => ({
+
+const useStyles = createStyles((theme) => ({
   card: {
-    height: "100%",
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+    borderRadius: theme.radius.md,
+    boxShadow: theme.shadows.md,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+  },
+
+  title: {
+    fontWeight: 700,
+    fontFamily: `${theme.fontFamily}`,
+    lineHeight: 1.2,
+    color:theme.colors.Neutral[8]
+  },
+
+  body: {},
+  imageBox: {
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    transition: "transform .3s ease-in-out",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnBox: {
+    display: "flex",
   },
 }));
 
-export function StartupCard(prop: StartupCardProps) {
-  const data = prop.data;
-  const onClickFindSimilar = prop.onClickFindSimilar;
+export function StartupCard({
+  images,
+  city,
+  name,
+  description,
+  link,
+  onClickFindSimilar,
+}: StartupCardProps) {
   const { classes } = useStyles();
   return (
-    <Card
-      shadow="sm"
-      padding="lg"
-      radius="md"
-      withBorder
-      key={data.Index}
-      className={classes.card}
-    >
-      <Card.Section>
+    <Grid className={classes.card}>
+      <Grid.Col xs={2} className={classes.imageBox}>
         <Image
-          h={"100%"}
-          src={data.images}
+          src={images}
           withPlaceholder
           alt={"No results found."}
-          p={10}
           radius="md"
-          placeholder={
-            <Image src={"./error.gif"} alt="No results found." radius="md" />
-          }
           sx={{
-            "& .mantine-Image-placeholder": {
-              backgroundColor: "white",
-              position: "relative",
-              marginTop: "-27px",
-            },
             "& .mantine-Image-image": {
               border: "1px solid #e3e3e3",
             },
           }}
         />
-      </Card.Section>
-
-      <Box mt="md" mb="xs">
-        <Text weight={500} size={rem(25)}>
-          {data.name}
-        </Text>
-        <Badge color="blue" variant="light">
-          {data.city}
-        </Badge>
-      </Box>
-
-      <Text
-        size="sm"
-        color="dimmed"
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(
-            data.description.length > 100
-              ? data.description.substring(0, 80) + "..."
-              : data.description
-          ),
-        }}
-      />
-
-      <Group position="apart" mt="md" mb="xs">
-        <Button
-          variant="light"
-          color="pink"
-          onClick={() => {
-            onClickFindSimilar(data.description);
-          }}
-        >
-          Find Similar
-        </Button>
-        <Tooltip label="Visit Website" position="bottom" withArrow>
-          <ActionIcon
-            size="lg"
-            color="pink"
-            variant="light"
-            component="a"
-            href={data.link}
-            target="_blank"
-          >
-            <IconExternalLink size="1.1rem" stroke={1.5} />
-          </ActionIcon>
-        </Tooltip>
-      </Group>
-    </Card>
+      </Grid.Col>
+      <Grid.Col xs={10} >
+        <Grid sx={{
+            display:"flex",
+            alignContent:"center",
+            height:"100%"
+    
+        }}>
+          <Grid.Col sm={6} md={7} >
+            <Badge color="blue" variant="light">
+              {city}
+            </Badge>
+            <Text
+              className={classes.title}
+              size="lg"
+              weight={700}
+              style={{ marginTop: 10 }}
+            >
+              {name}
+            </Text>
+            <Text
+              size="sm"
+              weight={400}
+              style={{ marginTop: 10 }}
+              color="Neutral.6"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(
+                  description.length > 100
+                    ? description.substring(0, 80) + "..."
+                    : description
+                ),
+              }}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} md={5} className={classes.btnBox}>
+            <Group noWrap position="center" h={"100%"}>
+              <Button
+                variant="subtle"
+                radius={"xl"}
+                color="Neutral.8"
+                onClick={() => onClickFindSimilar(description)}
+              >
+                Find Similar
+              </Button>
+              <Button
+                variant="outline"
+                color="Neutral.8"
+                href={link}
+                target="_blank"
+                component="a"
+                radius={"xl"}
+                sx={{
+                  border: "1px solid #DCE4FA",
+                }}
+                rightIcon={<IconExternalLink />}
+              >
+                View Website
+              </Button>
+            </Group>
+          </Grid.Col>
+        </Grid>
+      </Grid.Col>
+    </Grid>
   );
 }

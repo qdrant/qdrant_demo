@@ -58,14 +58,15 @@ export function Main() {
               { label: "Neural", value: "neural" },
               { label: "Text", value: "text" },
             ]}
-            size="md"
-            color="Primary.2"
-            className={classes.control}
             onChange={(value) => {
               setIsNeural(value === "neural");
               resetData();
               query && getSearch(query, value === "neural");
             }}
+            size="md"
+            color="Primary.2"
+            className={classes.control}
+            value={isNeural ? "neural" : "text"}
           />
           <TextInput
             radius={30}
@@ -79,10 +80,12 @@ export function Main() {
                 size={"md"}
                 variant="filled"
                 color="Primary.2"
+                onClick={handleSubmit}
               >
                 Search
               </Button>
             }
+            rightSectionWidth={"6rem"}
             className={classes.inputArea}
             value={query}
             required
@@ -117,13 +120,19 @@ export function Main() {
               </Text>
             </Box>
           ) : data?.result ? (
-            <Grid>
+            <Grid mt={"md"}>
               {data.result.length > 0 ? (
                 data.result.map((item) => (
-                  <Grid.Col md={6} lg={4} key={item.Index}>
+                  <Grid.Col span={12} key={item.Index}>
                     <StartupCard
-                      data={item}
+                      name={item.name}
+                      images={item.images}
+                      alt={item.alt}
+                      description={item.description}
+                      link={item.link}
+                      city={item.city}
                       onClickFindSimilar={onClickFindSimilar}
+                      Index={item.Index}
                     />
                   </Grid.Col>
                 ))

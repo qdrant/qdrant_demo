@@ -62,6 +62,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: theme.other.paragraph.sizes.P14.fontWeight,
   },
   modalHeader: {
+    color: theme.colors.Neutral[8],
     fontSize: "2rem",
     fontWeight: 700,
     lineHeight: "2.5rem",
@@ -80,65 +81,18 @@ const useStyles = createStyles((theme) => ({
     textAlign: "center",
     width: "100%",
     paddingTop: "1rem",
+    color: theme.colors.Neutral[8],
+  },
+  modalBtnInner: {
+    width: "200px",
+    marginTop: "2rem",
   },
 }));
 
 export function CustomHeader() {
   const { classes } = useStyles();
   const [opened, { open, close }] = useDisclosure(false);
-  // <Box className={classes.inputRightSection}>
-  //   {loading && <Loader size="xs" color="Primary.2" />}
-  //   {query && (
-  //     <ActionIcon
-  //       onClick={() => {
-  //         setQuery("");
-  //         resetData();
-  //       }}
-  //       color="Primary.2"
-  //       sx={{
-  //         cursor: "pointer",
-  //       }}
-  //     >
-  //       <IconX size="1.1rem" stroke={1.5} />
-  //     </ActionIcon>
-  //   )}
-  //   {isNeural ? (
-  //     <Text color="Primary.2">Neural</Text>
-  //   ) : (
-  //     <Text>Text</Text>
-  //   )}
-  //   <Switch
-  //     checked={isNeural}
-  //     onChange={(event) => {
-  //       setIsNeural(event.currentTarget.checked);
-  //       resetData();
-  //       query && getSearch(query, event.currentTarget.checked);
-  //     }}
-  //     color="Primary.2"
-  //   />
-  // </Box>
-  {
-    /* <Box className={classes.controls}>
-            <Button
-              className={classes.control}
-              size="md"
-              color="Primary.2"
-              disabled={loading}
-              onClick={handleSubmit}
-              rightIcon={loading && <Loader size="xs" color="white" />}
-            >
-              Search
-            </Button>
-            <Button
-              className={classes.control}
-              size="md"
-              variant="default"
-              onClick={open}
-            >
-              How it works?
-            </Button>
-          </Box> */
-  }
+
   return (
     <MantineHeader
       height={56}
@@ -209,7 +163,13 @@ export function CustomHeader() {
             search.
           </Text>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Text size="lg" color="dimmed" className={classes.description}>
             Each startup description is converted into a vector using a
             pre-trained SentenceTransformer model and uploaded to the Qdrant
@@ -227,6 +187,16 @@ export function CustomHeader() {
             query and return noisy results, while neural search finds better and
             semantically closer results.
           </Text>
+          <Button
+            className={classes.modalBtnInner}
+            radius={30}
+            size={"md"}
+            variant="filled"
+            color="Primary.2"
+            onClick={close}
+          >
+            Get started
+          </Button>
         </Modal.Body>
       </Modal>
     </MantineHeader>

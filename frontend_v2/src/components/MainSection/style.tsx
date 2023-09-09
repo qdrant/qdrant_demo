@@ -26,8 +26,7 @@ export const useStyles = createStyles((theme) => ({
   },
 
   highlight: {
-    color:
-      theme.colors[theme.primaryColor][2],
+    color: theme.colors[theme.primaryColor][2],
   },
 
   description: {
@@ -48,23 +47,18 @@ export const useStyles = createStyles((theme) => ({
     marginTop: theme.spacing.xl,
     border: `1px solid ${theme.colors.Neutral[2]}`,
   },
-  inputRightSection:{
-
-  },
+  inputRightSection: {},
   inputArea: {
-    width: "100%",
     marginTop: theme.spacing.xl,
-    "& .mantine-TextInput-input":{
+    "& .mantine-TextInput-input": {
       border: `1px solid ${theme.colors.Neutral[2]}`,
       color: theme.colors.Neutral[6],
-      "::-webkit-input-placeholder":{
+      "::-webkit-input-placeholder": {
         color: theme.colors.Neutral[6],
-      }
+      },
     },
-    
-   
   },
-  viewResult:{
+  viewResult: {
     paddingTop: theme.spacing.md,
-  }
+  },
 }));
