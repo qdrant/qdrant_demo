@@ -4,14 +4,22 @@ import useMountedState from './useMountedState';
 
 export type searchResponse = {
 	result: {
-		Index: number;
-		_1: number;
-		name: string;
-		images: string;
-		alt: string;
-		description: string;
-		link: string;
+		cb_url: string;
 		city: string;
+		combined_stock_symbols: string;
+		country_code: string;
+		domain: string;
+		facebook_url: string;
+		homepage_url: string;
+		linkedin_url: string;
+		logo_url: string;
+		name: string;
+		primary_role: string;
+		region: string;
+		short_description: string;
+		twitter_url: string;
+		type: string;
+		uuid: string;
 	}[];
 };
 export const useGetSearchResult = () => {

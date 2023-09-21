@@ -11,7 +11,7 @@ import { IconExternalLink } from "@tabler/icons-react";
 import DOMPurify from "dompurify";
 
 type StartupCardProps = {
-  Index: number;
+  Index: string;
   name: string;
   images: string;
   alt: string;

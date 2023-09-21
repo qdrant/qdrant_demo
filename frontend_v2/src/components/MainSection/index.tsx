@@ -123,16 +123,21 @@ export function Main() {
             <Grid mt={"md"}>
               {data.result.length > 0 ? (
                 data.result.map((item) => (
-                  <Grid.Col span={12} key={item.Index}>
+                  <Grid.Col span={12} key={item.uuid}>
                     <StartupCard
                       name={item.name}
-                      images={item.images}
-                      alt={item.alt}
-                      description={item.description}
-                      link={item.link}
-                      city={item.city}
+                      images={item.logo_url}
+                      alt={item.name}
+                      description={item.short_description}
+                      link={item.homepage_url}
+                      city={
+                        item.city ??
+                        item.region ??
+                        item.country_code ??
+                        "Unknown"
+                      }
                       onClickFindSimilar={onClickFindSimilar}
-                      Index={item.Index}
+                      Index={item.uuid}
                     />
                   </Grid.Col>
                 ))

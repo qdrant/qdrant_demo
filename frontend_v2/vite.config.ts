@@ -13,7 +13,7 @@ export default defineConfig(() => {
     server: {
       proxy: {
         "/api": {
-          target: "https://demo.qdrant.tech",
+          target: "http://0.0.0.0:8000/",
           changeOrigin: true,
         },
       },
