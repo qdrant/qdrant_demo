@@ -6,7 +6,6 @@ authors = ["Andrey Vasnetsov <andrey@vasnetsov.com>"]
 
 [tool.poetry.dependencies]
 python = "~3.11"
-scipy = "^1.9.1"
 fastapi = "^0.103.1"
 uvicorn = "^0.18.3"
 sentence-transformers = "^2.2.0"
@@ -21,6 +20,7 @@ torch = [
     {url="https://download.pytorch.org/whl/cpu/torch-2.0.1-cp311-none-macosx_10_9_x86_64.whl", markers = "python_version == '3.11' and sys_platform == 'darwin' and platform_machine == 'x86_64'"},
     {url="https://download.pytorch.org/whl/cpu/torch-2.0.1-cp311-none-macosx_11_0_arm64.whl", markers = "python_version == '3.11' and sys_platform == 'darwin' and platform_machine == 'arm64'"},
 ]
+tqdm = "^4.66.1"
 
 [tool.poetry.dev-dependencies]
 
