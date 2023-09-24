@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v3
+    - name: Build backend
+      run: |
+        cd $GITHUB_WORKSPACE
+        docker build -t qdrant/search-demo:${{ github.sha }} .
+        docker save -o qdrant-search-demo.tar qdrant/search-demo:${{ github.sha }}
+        ls -al .
+
+    - name: copy data with ssh
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        source: "qdrant-search-demo.tar"
+        target: "deployment/data"
+
+    - name: run images
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          containerName=search-demo
+          docker load -i deployment/data/qdrant-search-demo.tar;
+          docker images;
+          docker kill $containerName || true;
+          docker rm $containerName || true;
+          docker run -d -p 8000:8000 --restart unless-stopped \
+                    --network=qdrant-net \
+                    -e OPENBLAS_NUM_THREADS=1 \
+                    -e OMP_NUM_THREADS=1 \
+                    -e QDRANT_URL=${{ secrets.QDRANT_URL }} \
+                    -e QDRANT_API_KEY=${{ secrets.QDRANT_API_KEY }} \
+                    -e QDRANT_COLLECTION=${{ secrets.QDRANT_COLLECTION }} \
+                    --name $containerName qdrant/search-demo:${{ github.sha }};
+        host: ${{ secrets.DEPLOY_HOST }}
+        user: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}

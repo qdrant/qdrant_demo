@@ -2,10 +2,12 @@ import os
 
 CODE_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(CODE_DIR)
-DATA_DIR = os.path.join(ROOT_DIR, 'data')
+DATA_DIR = os.path.join(ROOT_DIR, "data")
+STATIC_DIR = os.path.join(ROOT_DIR, "static")
 
-COLLECTION_NAME = "startups"
+QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333/")
+QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY", "")
 
-QDRANT_HOST = os.environ.get("QDRANT_HOST", "localhost")
-QDRANT_PORT = os.environ.get("QDRANT_PORT", 6333)
-
+COLLECTION_NAME = "text-demo"
+VECTOR_FIELD_NAME = "fast-bge-small-en"
+TEXT_FIELD_NAME = "short_description"

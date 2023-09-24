@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-npm run build
+pnpm run build
 
 rsync -avP ./dist/ $1:./project/web-deployment/public/demo/
 
