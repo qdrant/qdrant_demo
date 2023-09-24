@@ -1,0 +1,23 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_315_1851)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.6432 29.4152L23.0051 11.8227L21.8495 7.18463L29.5629 8.0012V29.282L24.8511 32.0014L23.6432 29.4152Z" fill="#24386C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M29.5624 7.99999L24.8506 10.7212L15.1271 8.58834L3.74592 13.2222L1.84973 7.99999L8.77676 4L15.7059 0L22.6331 4L29.5624 7.99999Z" fill="#7589BE"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1.8501 7.99997L6.5619 10.7212L9.29324 18.8443L18.5155 26.2231L15.7065 31.9999L8.77733 27.9997L1.8501 23.9997V7.99997Z" fill="#B2BFE8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18.8302 21.9548L15.7064 26.56V32.0004L20.139 29.4429L22.4228 26.0325" fill="#24386C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15.7084 21.1212L11.2739 13.4435L12.2291 10.8989L15.8601 9.13837L20.139 13.4437L15.7084 21.1212Z" fill="#7589BE"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11.274 13.4429L15.7065 16.0004V21.1196L11.607 21.2959L9.1272 18.1295L11.274 13.4429Z" fill="#B2BFE8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15.7064 16L20.139 13.4427L23.1557 18.4657L19.5051 21.4819L15.7064 21.1193V16Z" fill="#24386C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M20.139 29.4425L24.8508 32.0001V10.7214L20.2776 8.08206L15.7065 5.44269L11.1333 8.08206L6.56213 10.7214V21.2808L11.1333 23.9201L15.7065 26.5597L20.139 23.9999V29.4425ZM20.139 18.5595L15.7065 21.1191L11.2739 18.5595V13.4425L15.7065 10.8829L20.139 13.4425V18.5595Z" fill="#DC244C"/>
+<path d="M15.7084 26.5616V21.1204L11.299 18.5826V24.0149L15.7084 26.5616Z" fill="url(#paint0_linear_315_1851)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_315_1851" x1="14.8954" y1="22.1606" x2="10.5015" y2="22.1606" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF3364"/>
+<stop offset="1" stop-color="#C91540" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_315_1851">
+<rect width="27.6" height="32" fill="white" transform="translate(1.8501)"/>
+</clipPath>
+</defs>
+</svg>
+

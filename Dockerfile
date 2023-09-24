@@ -23,5 +23,5 @@ RUN python -c 'from sentence_transformers import SentenceTransformer; SentenceTr
 # Creating folders, and files for a project:
 COPY . /code
 
-CMD uvicorn qdrant_demo.service:app --host 0.0.0.0 --port 8000 --workers ${WORKERS:-1}
+CMD uvicorn qdrant_demo_v2.service:app --host 0.0.0.0 --port 8000 --workers ${WORKERS:-1}
 
