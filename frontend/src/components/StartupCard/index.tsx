@@ -99,8 +99,8 @@ export function StartupCard({
               color="Neutral.6"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(
-                  description.length > 100
-                    ? description.substring(0, 80) + "..."
+                  description.length > 200
+                    ? description.substring(0, 180) + "..."
                     : description
                 ),
               }}
