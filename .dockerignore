@@ -1,5 +1,3 @@
 data
-frontend
-frontend_v2
-qdrant_demo
 venv
+frontend/node_modules

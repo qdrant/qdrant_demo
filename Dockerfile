@@ -1,27 +1,47 @@
-FROM python:3.8
+# Dockerfile is based on the following tutorial:
+# https://www.erraticbits.ca/post/2021/fastapi/
 
-ENV PYTHONFAULTHANDLER=1 \
-  PYTHONUNBUFFERED=1 \
-  PYTHONHASHSEED=random \
-  PIP_NO_CACHE_DIR=off \
-  PIP_DISABLE_PIP_VERSION_CHECK=on \
-  PIP_DEFAULT_TIMEOUT=100 \
-  POETRY_VERSION=1.5.1
+# Build step #1: build the React front end
+FROM node:20-bookworm-slim as build-step
 
-RUN pip install "poetry==$POETRY_VERSION"
+WORKDIR /app
 
-# Copy only requirements to cache them in docker layer
-WORKDIR /code
-COPY poetry.lock pyproject.toml /code/
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Project initialization:
-RUN poetry config virtualenvs.create false \
-  && poetry install --no-dev --no-interaction --no-ansi
+COPY frontend/package.json  ./
 
+RUN npm install
+
+COPY ./frontend/ ./
+
+RUN npm run build
+
+
+FROM python:3.11-slim-bookworm
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Install poetry for packages management
+RUN python -m pip install poetry
+RUN poetry config virtualenvs.create false
+
+# Use /app as the working directory
+WORKDIR /app
+
+# Copy poetry files & install the dependencies
+COPY ./pyproject.toml /app
+COPY ./poetry.lock /app
+COPY --from=build-step /app/dist /app/static
+
+RUN poetry install --no-interaction --no-ansi --no-root --without dev
 RUN python -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer("all-MiniLM-L6-v2") '
 
-# Creating folders, and files for a project:
-COPY . /code
+# Finally copy the application source code and install root
+COPY qdrant_demo /app/qdrant_demo
 
-CMD uvicorn qdrant_demo_v2.service:app --host 0.0.0.0 --port 8000 --workers ${WORKERS:-1}
+EXPOSE 8000
+
+CMD uvicorn qdrant_demo.service:app --host 0.0.0.0 --port 8000 --workers ${WORKERS:-1}
 
