@@ -16,7 +16,7 @@ export type searchResponse = {
 		name: string;
 		primary_role: string;
 		region: string;
-		short_description: string;
+		document: string;
 		twitter_url: string;
 		type: string;
 		uuid: string;
