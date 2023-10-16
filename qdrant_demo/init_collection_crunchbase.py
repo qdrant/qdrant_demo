@@ -4,7 +4,7 @@ import pandas as pd
 from qdrant_client import QdrantClient, models
 from tqdm import tqdm
 
-from qdrant_demo.config import DATA_DIR, QDRANT_URL, QDRANT_API_KEY, COLLECTION_NAME, TEXT_FIELD_NAME, VECTOR_FIELD_NAME
+from qdrant_demo.config import DATA_DIR, QDRANT_URL, QDRANT_API_KEY, COLLECTION_NAME, TEXT_FIELD_NAME, EMBEDDINGS_MODEL
 
 # Define the CSV file path and NPY file path
 csv_file_path = os.path.join(DATA_DIR, "organizations.csv")
@@ -16,7 +16,9 @@ def upload_embeddings():
         api_key=QDRANT_API_KEY,
     )
 
-    df = pd.read_csv(csv_file_path, nrows=1000)
+    client.set_model(EMBEDDINGS_MODEL)
+
+    df = pd.read_csv(csv_file_path)
     documents = df['short_description'].tolist()
     df.drop(columns=['short_description'], inplace=True)
     metadata = df.to_dict('records')
@@ -53,7 +55,7 @@ def upload_embeddings():
         documents=documents,
         metadata=metadata,
         ids=tqdm(range(len(documents))),
-        parallel=0,
+        parallel=6,
     )
 
 

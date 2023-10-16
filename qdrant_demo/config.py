@@ -9,7 +9,6 @@ QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333/")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY", "")
 
 COLLECTION_NAME = os.environ.get("COLLECTION_NAME", "text-demo")
-EMBEDDINGS_MODEL = os.environ.get("EMBEDDINGS_MODEL", "BAAI/bge-small-en")
+EMBEDDINGS_MODEL = os.environ.get("EMBEDDINGS_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
 
-VECTOR_FIELD_NAME = "fast-bge-small-en"
-TEXT_FIELD_NAME = "short_description"
+TEXT_FIELD_NAME = "document"

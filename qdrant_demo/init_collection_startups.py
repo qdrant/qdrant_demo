@@ -2,11 +2,9 @@ import json
 import os.path
 
 from qdrant_client import QdrantClient, models
-from qdrant_client.qdrant_fastembed import SUPPORTED_EMBEDDING_MODELS
 from tqdm import tqdm
 
-from qdrant_demo.config import DATA_DIR, QDRANT_URL, QDRANT_API_KEY, COLLECTION_NAME, TEXT_FIELD_NAME, \
-    VECTOR_FIELD_NAME, EMBEDDINGS_MODEL
+from qdrant_demo.config import DATA_DIR, QDRANT_URL, QDRANT_API_KEY, COLLECTION_NAME, TEXT_FIELD_NAME, EMBEDDINGS_MODEL
 
 
 def upload_embeddings():
@@ -15,6 +13,8 @@ def upload_embeddings():
         api_key=QDRANT_API_KEY,
         prefer_grpc=True,
     )
+
+    client.set_model(EMBEDDINGS_MODEL)
 
     payload_path = os.path.join(DATA_DIR, 'startups.json')
     payload = []
