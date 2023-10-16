@@ -36,7 +36,7 @@ COPY ./poetry.lock /app
 COPY --from=build-step /app/dist /app/static
 
 RUN poetry install --no-interaction --no-ansi --no-root --without dev
-RUN python -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer("all-MiniLM-L6-v2") '
+RUN python -c 'from fastembed.embedding import DefaultEmbedding; DefaultEmbedding("BAAI/bge-small-en")'
 
 # Finally copy the application source code and install root
 COPY qdrant_demo /app/qdrant_demo

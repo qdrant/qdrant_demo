@@ -8,19 +8,12 @@ authors = ["Andrey Vasnetsov <andrey@vasnetsov.com>"]
 python = "~3.11"
 fastapi = "^0.103.1"
 uvicorn = "^0.18.3"
-sentence-transformers = "^2.2.0"
 psutil = "^5.7.3"
-nltk = "^3.7"
 pandas = "^1.1.5"
 loguru = "^0.5.3"
 requests = "^2.25.1"
-qdrant-client = "^1.5.4"
-torch = [
-    {url="https://download.pytorch.org/whl/cpu-cxx11-abi/torch-2.0.1%2Bcpu.cxx11.abi-cp311-cp311-linux_x86_64.whl", markers = "python_version == '3.11' and sys_platform == 'linux' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-2.0.1-cp311-none-macosx_10_9_x86_64.whl", markers = "python_version == '3.11' and sys_platform == 'darwin' and platform_machine == 'x86_64'"},
-    {url="https://download.pytorch.org/whl/cpu/torch-2.0.1-cp311-none-macosx_11_0_arm64.whl", markers = "python_version == '3.11' and sys_platform == 'darwin' and platform_machine == 'arm64'"},
-]
 tqdm = "^4.66.1"
+qdrant-client = {extras = ["fastembed"], version = "^1.6.3"}
 
 [tool.poetry.dev-dependencies]
 

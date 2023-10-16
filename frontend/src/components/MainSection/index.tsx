@@ -128,7 +128,7 @@ export function Main() {
                       name={item.name}
                       images={item.logo_url}
                       alt={item.name}
-                      description={item.short_description}
+                      description={item.document}
                       link={item.homepage_url}
                       city={
                         item.city ??
