@@ -10,7 +10,7 @@ class TextSearcher:
     def __init__(self, collection_name: str):
         self.highlight_field = TEXT_FIELD_NAME
         self.collection_name = collection_name
-        self.qdrant_client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+        self.qdrant_client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, prefer_grpc=True)
 
     def highlight(self, record, query) -> dict:
         text = record[self.highlight_field]
