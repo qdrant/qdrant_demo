@@ -39,6 +39,8 @@ export default function DemoSearch({ handleDemoSearch }: DemoSearchProps) {
       <Text className={classes.demoText}>Try this:</Text>
       <Button
         variant="outline"
+        color="Primary.2"
+        radius={"lg"}
         leftIcon={<IconPointerSearch size={"1.3rem"} />}
         className={classes.demoBtn}
         onClick={() => handleDemoSearch("Qdrant")}
@@ -47,6 +49,8 @@ export default function DemoSearch({ handleDemoSearch }: DemoSearchProps) {
       </Button>
       <Button
         variant="outline"
+        radius={"lg"}
+        color="Primary.2"
         leftIcon={<IconPointerSearch size={"1.3rem"} />}
         className={classes.demoBtn}
         onClick={() => handleDemoSearch("Wooden furniture")}
@@ -55,6 +59,8 @@ export default function DemoSearch({ handleDemoSearch }: DemoSearchProps) {
       </Button>
       <Button
         variant="outline"
+        color="Primary.2"
+        radius={"lg"}
         leftIcon={<IconPointerSearch size={"1.3rem"} />}
         className={classes.demoBtn}
         onClick={() => handleDemoSearch("Milk Company")}
