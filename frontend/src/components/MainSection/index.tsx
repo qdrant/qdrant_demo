@@ -16,6 +16,7 @@ import useMountedState from "@/hooks/useMountedState";
 import { useGetSearchResult } from "@/hooks/useGetSearchResult";
 import { getHotkeyHandler } from "@mantine/hooks";
 import { StartupCard } from "../StartupCard";
+import DemoSearch from "../DemoSearch";
 
 export function Main() {
   const { classes } = useStyles();
@@ -93,6 +94,8 @@ export function Main() {
             onKeyDown={getHotkeyHandler([["Enter", handleSubmit]])}
           />
         </Container>
+
+        <DemoSearch handleDemoSearch={onClickFindSimilar} />
         <Container className={classes.viewResult}>
           {loading ? (
             <Box

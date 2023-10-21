@@ -51,7 +51,7 @@ const useStyles = createStyles((theme) => ({
     textDecorationLine: "underline",
   },
   description: {
-    ":not(:first-child)": {
+    ":not(:first-of-type)": {
       paddingTop: "1rem",
     },
     paddingBottom: "1rem",
