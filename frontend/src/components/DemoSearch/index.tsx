@@ -11,6 +11,9 @@ const useStyles = createStyles((theme) => ({
     margin: "0 auto",
     padding: theme.spacing.md,
     gap: theme.spacing.sm,
+    [theme.fn.smallerThan("sm")]: {
+      flexDirection: "column",
+    },
   },
 
   demoBtn: {
