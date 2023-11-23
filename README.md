@@ -16,7 +16,7 @@ poetry install
 
 You will also need [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/)
 
-## Quick Start
+## Quick Start <a href="https://replit.com/new/github/qdrant/qdrant_demo"><img align="right" src="https://replit.com/badge/github/qdrant/qdrant_demo" alt="Run on Repl.it"></a>
 
 To launch this demo locally you will need to prepare data first.
 
