@@ -19,12 +19,14 @@ RUN npm run build
 
 FROM python:3.11-slim-bookworm
 
+RUN apt-get update -y && apt-get install -y gcc && rm -rf /var/lib/apt/lists/*
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Install poetry for packages management
-RUN python -m pip install poetry
+RUN python -m pip install -U pip poetry
 RUN poetry config virtualenvs.create false
 
 # Use /app as the working directory
