@@ -1,3 +1,7 @@
 venv
 data/*
 static
+.DS_Store
+__pycache__
+.vscode
+.python-version
