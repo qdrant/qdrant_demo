@@ -25,7 +25,7 @@ The source of the original data is [https://www.startups-list.com/](https://www.
 You can download the data via the following command:
 
 ```bash
-wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
+wget https://storage.googleapis.com/generall-shared-data/startups_demo.json -P data/
 ```
 
 To launch service locally, use
