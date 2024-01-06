@@ -5,3 +5,4 @@ static
 __pycache__
 .vscode
 .python-version
+.idea/
