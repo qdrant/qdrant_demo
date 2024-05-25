@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: qdrant-demo
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  istio_labels:
+    app_label_name: {{ .Release.Name }}
+    version_label_name: "v1"
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qdrant-demo
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        release: {{ .Release.Name }}
+    spec:
+      istio_labels:
+        app_label_name: {{ .Release.Name }}
+        version_label_name: "v1"
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: QDRANT_URL
+              value: http://qdrant:6333/
+          ports:
+            - containerPort: 8000
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}

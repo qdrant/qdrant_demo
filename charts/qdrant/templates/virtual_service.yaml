@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - {{ .Release.Name }}-gateway
+  tcp:
+  - match:
+    - port: 6333
+    route:
+    - destination:
+        host: qdrant
+        port:
+          number: 6333
+      weight: 100
+  - match:
+    - port: 6334
+    route:
+    - destination:
+        host: qdrant
+        port:
+          number: 6334
+      weight: 100

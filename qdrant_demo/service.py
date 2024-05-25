@@ -30,6 +30,17 @@ async def read_item(q: str, neural: bool = True):
         if neural else text_searcher.search(query=q)
     }
 
+@app.get("/auth/callback")
+async def auth_callback(code: str):
+    return {
+        "code": code
+    }
+
+@app.get("/auth/logout")
+async def auth_logout():
+    return {
+        "result": "success"
+    }
 
 # Mount the static files directory once the search endpoint is defined
 if os.path.exists(STATIC_DIR):

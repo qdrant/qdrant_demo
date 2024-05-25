@@ -6,3 +6,48 @@ __pycache__
 .vscode
 .python-version
 .idea/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+crash.log
+
+# Helm
+*.tgz
+charts/*.tgz
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+dist/
+build/
+*.egg
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# OpenDevin
+.tmp
+
+# Kube Config
+terraform/kubeconfig_qdrant-mcloud-eks
+app/None
+
+# Qdrant-Demo-App
+None

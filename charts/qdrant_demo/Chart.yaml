@@ -1,0 +1,5 @@
+apiVersion: v2
+name: qdrant-demo
+description: A Helm chart for deploying the qdrant-demo
+version: 0.1.0
+appVersion: "1.0"
