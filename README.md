@@ -1,11 +1,13 @@
 
 # Semantic Search Engine for Startups
 
-You can clone this repo and create your own search engine in a few steps! [![Demo](https://img.shields.io/badge/Try%20it%20live%20here!-purple?&style=flat-square&logo=react&logoColor=white)](https://demo.qdrant.tech/) 
+You can clone this repo and create your own search engine in a few steps! 
+</br> [![Demo](https://img.shields.io/badge/Try%20it%20live%20here!-purple?&style=flat-square&logo=react&logoColor=white)](https://demo.qdrant.tech/) 
 
 ![Startup Search Demo](qdrant-demo.gif)
 
-In this demo, you will search through a list of popular startups. You can either run a **neural/semantic search** or a **basic keyword search**. 
+In this demo, you will search through a list of popular startups.
+<br> You can either run a **neural/semantic search** or a **basic keyword search**. 
 
 ## Prerequisites
 - Python
