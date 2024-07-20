@@ -95,7 +95,9 @@ python -m qdrant_demo.init_collection_crunchbase
 |`config.py`|Defines the directories for code, root, data, and static files|
 
 ## init_collection_startups.py
-This reads a JSON file containing startup data, restructures the data into a unified schema, and recreates a collection in Qdrant with specified vector and quantization configurations. 
+This reads a JSON file containing startup data, restructures the data into a unified schema, and recreates a collection in Qdrant with specified vector and quantization configurations.
+
+In this example, we are turning on Scalar Quantization to make sure less memory is used to process data.
 
 A payload index is created for text search on a specified text field. Finally, it uploads the documents and their metadata to the Qdrant collection. 
 
