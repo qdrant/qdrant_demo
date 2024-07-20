@@ -1,75 +1,77 @@
 
-# Neural search demo 
-## With Qdrant + BERT + FastAPI
+# Semantic Search Engine
 
-This repository contains a code for Neural Search for startups [demo](https://demo.qdrant.tech).
+You can clone this repo and create your own search engine in a few steps! 
+</br> [![Demo](https://img.shields.io/badge/Try%20it%20live%20here!-purple?&style=flat-square&logo=react&logoColor=white)](https://demo.qdrant.tech/) 
 
-The demo is based on the vector search engine [Qdrant](https://github.com/qdrant/qdrant).
+You can use this small app to search through a list of popular startups.
+<br> - The **neural search** will read the description and look for similar startups.
+</br> - The **keyword search** will look up your exact term in the description. 
 
-## Requirements
-Install python requirements:
+![Startup Search Demo](qdrant-demo.gif)
 
+## Prerequisites
+- Python (v.3.11)
+- Docker
+
+## Setup
+
+### 1. Setup the virtual environment 
+
+```python
+python -m venv .venv             
+source .venv/bin/activate
 ```
+
+### 2. Install required dependencies
+
+```bash
 pip install poetry
 poetry install
 ```
 
-You will also need [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/)
-
-## Quick Start <a href="https://replit.com/new/github/qdrant/qdrant_demo"><img align="right" src="https://replit.com/badge/github/qdrant/qdrant_demo" alt="Run on Repl.it"></a>
-
-To launch this demo locally you will need to download data first.
-
-The source of the original data is [https://www.startups-list.com/](https://www.startups-list.com/)
-
-You can download the data via the following command:
+### 3. Download the dataset
 
 ```bash
 wget https://storage.googleapis.com/generall-shared-data/startups_demo.json -P data/
 ```
 
-To launch service locally, use
+### 4. Deploy the service
 
-```
+```bash
 docker-compose -f docker-compose-local.yaml up
 ```
 
-After service is started you can upload initial data to the search engine.
+### 5. Upload data to the application
 
-```
-# Init neural index
+```bash
 python -m qdrant_demo.init_collection_startups
 ```
 
-After a successful upload, neural search API will be available at [http://localhost:8000/docs](http://localhost:8000/docs) 
-
-You can play with the data in the following [Colab Notebook](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing).
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)
+### 6.  Go to [http://localhost:8000/](http://localhost:8000/) 
 
 
-## Start with Crunchbase data
+## Using a larger dataset with more startups
 
-Alternatively, you can use larger dataset of companies provided by [Crunchbase](https://www.crunchbase.com/).
+You can add a larger dataset of companies provided by [Crunchbase](https://www.crunchbase.com/).
 
-You will need to register at [https://www.crunchbase.com/](https://www.crunchbase.com/) and get an API key.
+For this, you will need to register at [https://www.crunchbase.com/](https://www.crunchbase.com/) and get an API key.
+
+### 1. Download the data 
 
 ```bash
-# Download data
 wget 'https://api.crunchbase.com/odm/v4/odm.tar.gz?user_key=<CRUNCHBASE-API-KEY>' -O odm.tar.gz
 ```
 
-Decompress data and put `organizations.csv` into `./data` folder.
+### 2. Decompress the data and add `organizations.csv` to `./data` folder.
 
 ```bash
-# Decompress data
 tar -xvf odm.tar.gz
 mv odm/organizations.csv ./data
 ```
 
-After that, you can run indexing of Crunchbase data into Qdrant.
+### 3. Now you can index new Crunchbase data into Qdrant
 
 ```bash
-# Init neural index
 python -m qdrant_demo.init_collection_crunchbase
 ```
