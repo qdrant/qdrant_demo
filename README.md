@@ -79,6 +79,13 @@ python -m qdrant_demo.init_collection_crunchbase
 
 ## What's inside? 
 
+|Software Stack||
+|-|-|
+|Qdrant|Vector database and a search engine with full-text and semantic capabilities.|
+|`all-MiniLM-L6-v2`|The embedding model that turns startup data to vectors.|
+|FastEmbed|Qdrant's package that simplifies this vectorization process.|
+|Frontend in TypeScript|Basic visuals that you see in the deployed application.|
+
 |Application Components||
 |-|-|
 |`init_collection_startups.py`|Uploads document embeddings to a Qdrant collection.|
