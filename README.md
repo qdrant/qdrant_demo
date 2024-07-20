@@ -75,3 +75,31 @@ mv odm/organizations.csv ./data
 ```bash
 python -m qdrant_demo.init_collection_crunchbase
 ```
+
+
+## What's inside? 
+
+|Application Components||
+|-|-|
+|`init_collection_startups.py`|Uploads document embeddings to a Qdrant collection.|
+|`neural_searcher.py`|Defines the semantic search process via vector search and optional payload filter.|
+|`text_searcher.py`|Defines the keyword search process across startup metadata / payload.|
+|`service.py`|Setup instructions for the entire FastAPI application.|
+|`config.py`|Defines the directories for code, root, data, and static files|
+
+## init_collection_startups.py
+This reads a JSON file containing startup data, restructures the data into a unified schema, and recreates a collection in Qdrant with specified vector and quantization configurations. 
+
+A payload index is created for text search on a specified text field. Finally, it uploads the documents and their metadata to the Qdrant collection. 
+
+## neural_searcher.py
+The NeuralSearcher class enables semantic searches. The search method takes a text query and an optional filter, performs a semantic search in the specified collection, and returns the top five results’ metadata. 
+
+## text_searcher.py
+The TextSearcher class defines text searches. The search method queries the specified text field for matches and returns the top results, while the highlight method wraps matching query terms in HTML <b> tags for emphasis. 
+
+## service.py
+This initializes both searchers. A GET endpoint /api/search allows querying with a text string and a flag to choose between neural and text search methods. 
+
+## config.py
+This retrieves environment variables for the Qdrant URL, API key, collection name, and embeddings model. It sets the name of the field used for text data as “document”. 
