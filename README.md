@@ -8,7 +8,7 @@ You can use this small app to search through a list of popular startups.
 <br> - The **neural search** will read the description and look for similar startups.
 </br> - The **keyword search** will look up your exact term in the description. 
 
-![Startup Search Demo](qdrant-demo.gif)
+![Startup Search Demo](demo.gif)
 
 ## Prerequisites
 - Python (v.3.11)
@@ -77,7 +77,7 @@ python -m qdrant_demo.init_collection_crunchbase
 ```
 
 
-## What's inside? 
+## What's inside of this app? 
 
 |Software Stack||
 |-|-|
