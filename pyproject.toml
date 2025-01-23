@@ -10,10 +10,10 @@ fastapi = "^0.103.1"
 uvicorn = "^0.18.3"
 psutil = "^5.7.3"
 pandas = "^1.1.5"
-loguru = "^0.5.3"
+loguru = ">=0.7.2"
 requests = "^2.25.1"
 tqdm = "^4.66.1"
-qdrant-client = {extras = ["fastembed"], version = "^1.6.3"}
+qdrant-client = { extras = ["fastembed"], git = "https://github.com/qdrant/qdrant-client.git", branch = "local-inference-batch-extras" }
 
 [tool.poetry.dev-dependencies]
 

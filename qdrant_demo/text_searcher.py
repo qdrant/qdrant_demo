@@ -26,7 +26,7 @@ class TextSearcher:
         return record
 
     def search(self, query, top=5):
-        hits = self.qdrant_client.scroll(
+        hits, _next_page = self.qdrant_client.scroll(
             collection_name=self.collection_name,
             scroll_filter=Filter(
                 must=[
@@ -39,4 +39,4 @@ class TextSearcher:
             with_vectors=False,
             limit=top
         )
-        return [self.highlight(hit.payload, query) for hit in hits[0]]
+        return [self.highlight(hit.payload, query) for hit in hits]
