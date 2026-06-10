@@ -8,7 +8,7 @@ authors = ["Andrey Vasnetsov <andrey@vasnetsov.com>"]
 python = "~3.11"
 fastapi = "^0.103.1"
 uvicorn = "^0.18.3"
-psutil = "^5.7.3"
+psutil = ">=5.7.3,<8.0.0"
 pandas = "^2.2.3"
 loguru = ">=0.7.2"
 requests = "^2.25.1"
