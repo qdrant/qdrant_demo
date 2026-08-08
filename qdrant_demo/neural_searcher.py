@@ -73,7 +73,8 @@ class NeuralSearcher:
         stats = {
             "mode": mode,
             "embedding_model": EMBEDDINGS_MODEL,
-            # RRF fusion scores (~1/60) are not on the same scale as cosine (~0..1).
+            # Hybrid returns a rank-fusion score, semantic a cosine similarity.
+            # Both land in 0..1 but mean different things, so label which one.
             "score_type": "rrf" if mode == "hybrid" else "cosine",
             "results": len(results),
         }

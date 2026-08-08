@@ -10,6 +10,8 @@ services:
       - qdrant
     environment:
       - QDRANT_URL=http://qdrant_demo_qdrant:6333
+      # Local Qdrant has no server-side inference, so embed client-side with fastembed.
+      - CLOUD_INFERENCE=0
 
   qdrant:
     container_name: qdrant_demo_qdrant
