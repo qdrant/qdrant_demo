@@ -16,6 +16,7 @@ from tqdm import tqdm
 from qdrant_demo.config import (
     DATA_DIR, QDRANT_URL, QDRANT_API_KEY, COLLECTION_NAME, TEXT_FIELD_NAME,
     EMBEDDINGS_MODEL, SPARSE_EMBEDDINGS_MODEL, DENSE_VECTOR_NAME, SPARSE_VECTOR_NAME,
+    CLOUD_INFERENCE,
 )
 
 DENSE_DIM = 1024  # mxbai-embed-large-v1
@@ -39,12 +40,17 @@ def _records() -> Iterable[dict]:
 
 
 def _doc_text(obj: dict) -> str:
-    # Same text the searcher matches against: name + the document body.
-    return f"{obj.get('name', '')}. {obj.get(TEXT_FIELD_NAME, '')}".strip()
+    # The exact text all three modes see: the same `document` field the keyword
+    # index is built on. Keeping them identical is what makes the mode comparison
+    # honest, so dense, sparse, and keyword match on the same string.
+    return obj.get(TEXT_FIELD_NAME, "") or ""
 
 
 def build():
-    client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, cloud_inference=True)
+    # cloud_inference=True embeds server-side (Qdrant Cloud). With it False and the
+    # fastembed extra installed, the same models.Document calls embed client-side,
+    # so this script also works against a local OSS container.
+    client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, cloud_inference=CLOUD_INFERENCE)
 
     if client.collection_exists(COLLECTION_NAME):
         print(f"{COLLECTION_NAME} exists, recreating.")

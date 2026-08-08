@@ -5,7 +5,7 @@ description = "Qdrant vector similarity engine demo"
 authors = ["Andrey Vasnetsov <andrey@vasnetsov.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.15"
+python = "~3.11"
 fastapi = "^0.103.1"
 uvicorn = "^0.18.3"
 psutil = "^5.7.3"
@@ -13,7 +13,7 @@ pandas = "^2.2.3"
 loguru = ">=0.7.2"
 requests = "^2.25.1"
 tqdm = "^4.66.1"
-qdrant-client = "1.19.0"
+qdrant-client = { extras = ["fastembed"], version = "1.19.0" }
 
 [tool.poetry.dev-dependencies]
 

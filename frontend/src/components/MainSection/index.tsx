@@ -17,16 +17,17 @@ import { useGetSearchResult } from "@/hooks/useGetSearchResult";
 import { getHotkeyHandler } from "@mantine/hooks";
 import { StartupCard } from "../StartupCard";
 import DemoSearch from "../DemoSearch";
+import { SearchMode } from "@/api/search";
 
 export function Main() {
   const { classes } = useStyles();
   const [query, setQuery] = useMountedState("");
   const { data, error, loading, getSearch, resetData } = useGetSearchResult();
-  const [isNeural, setIsNeural] = useMountedState(true);
+  const [mode, setMode] = useMountedState<SearchMode>("hybrid");
 
   const handleSubmit = () => {
     if (query) {
-      getSearch(query, isNeural);
+      getSearch(query, mode);
     }
   };
 
@@ -34,7 +35,7 @@ export function Main() {
     if (data) {
       resetData();
       setQuery(data);
-      getSearch(data, isNeural);
+      getSearch(data, mode);
     }
   };
 
@@ -44,30 +45,32 @@ export function Main() {
         <Title className={classes.title}>
           Startup{" "}
           <Text component="span" className={classes.highlight} inherit>
-            Semantic search
+            Hybrid search
           </Text>{" "}
           with Qdrant
         </Title>
         <Text size="lg" color="dimmed" className={classes.description}>
-          This demo uses short descriptions of startups to perform a semantic
-          search.
+          Search short descriptions of startups. Switch between semantic,
+          keyword, and hybrid to compare how each one ranks.
         </Text>
         <Container p={0} size={600} className={classes.controls}>
           <SegmentedControl
             radius={30}
             data={[
-              { label: "Neural", value: "neural" },
-              { label: "Text", value: "text" },
+              { label: "Semantic", value: "semantic" },
+              { label: "Keyword", value: "keyword" },
+              { label: "Hybrid", value: "hybrid" },
             ]}
             onChange={(value) => {
-              setIsNeural(value === "neural");
+              const next = value as SearchMode;
+              setMode(next);
               resetData();
-              query && getSearch(query, value === "neural");
+              query && getSearch(query, next);
             }}
             size="md"
             color="Primary.2"
             className={classes.control}
-            value={isNeural ? "neural" : "text"}
+            value={mode}
           />
           <TextInput
             radius={30}

@@ -38,6 +38,8 @@ async def read_item(q: str, mode: Optional[str] = None, neural: Optional[bool] =
     When neither is given, default to hybrid. Explicit `mode` always wins."""
     if mode is None:
         mode = "semantic" if neural is True else "keyword" if neural is False else "hybrid"
+    if mode not in ("semantic", "keyword", "hybrid"):
+        raise HTTPException(status_code=400, detail=f"unknown mode: {mode}")
     if not q.strip():
         return {"result": [], "stats": {"mode": mode}}
     try:

@@ -1,5 +1,6 @@
 import os
 import time
+import logging
 
 from qdrant_client import QdrantClient, models
 
@@ -8,6 +9,8 @@ from qdrant_demo.config import (
     DENSE_VECTOR_NAME, SPARSE_VECTOR_NAME, RESULT_LIMIT, HYBRID_PREFETCH,
     CLOUD_INFERENCE,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class NeuralSearcher:
@@ -63,14 +66,15 @@ class NeuralSearcher:
         else:
             hits = self._dense_only(text)
 
-        latency_ms = round((time.perf_counter() - t0) * 1000)
         results = [{**hit.payload, "score": hit.score} for hit in hits]
+        # Timing stays server-side for debugging; it's not returned to the client.
+        # This is a relevance demo, not a benchmark.
+        logger.debug("%s search took %d ms", mode, round((time.perf_counter() - t0) * 1000))
         stats = {
             "mode": mode,
             "embedding_model": EMBEDDINGS_MODEL,
             # RRF fusion scores (~1/60) are not on the same scale as cosine (~0..1).
             "score_type": "rrf" if mode == "hybrid" else "cosine",
-            "latency_ms": latency_ms,
             "results": len(results),
         }
         return {"results": results, "stats": stats}
