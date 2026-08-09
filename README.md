@@ -59,7 +59,7 @@ Against Qdrant Cloud, leave `CLOUD_INFERENCE=1` (the default) and the same
 ### 6.  Go to [http://localhost:8000/](http://localhost:8000/)
 
 
-## Search modes
+## Search Modes
 
 The API is `GET /api/search?q=<query>&mode=<semantic|keyword|hybrid>`. Hybrid is
 the default when no mode is given.

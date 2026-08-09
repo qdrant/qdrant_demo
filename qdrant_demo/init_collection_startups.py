@@ -1,9 +1,10 @@
 """Build the startups collection the search path expects: a named `dense` vector
 (mxbai) plus a `sparse` bm25 keyword vector with IDF, and a text index for keyword
 search. Payload fields are renamed once here to the schema the frontend reads
-(`document`, `logo_url`, `homepage_url`). Both vectors are embedded by Qdrant Cloud
-inference, so the query and document sides use the identical models by construction.
-Documents get no mxbai prefix (the query prefix is added at search time).
+(`document`, `logo_url`, `homepage_url`). Both vectors are embedded through
+`models.Document` (server-side with Cloud inference, or client-side with fastembed
+when CLOUD_INFERENCE=0), so the query and document sides use the identical models.
+Documents get no mxbai prefix; the query prefix is added at search time.
 Run:  python -m qdrant_demo.init_collection_startups
 """
 import json
