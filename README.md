@@ -6,8 +6,6 @@ Clone this repo and stand up your own search engine in a few steps. It searches 
 catalog of startups by their descriptions and lets you switch between three
 retrieval modes, so you can feel the difference between them on the same data.
 
-![Startup Search Demo](demo.gif)
-
 ## How It Works
 
 One query, three ways to rank it:
