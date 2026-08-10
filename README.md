@@ -11,7 +11,7 @@ retrieval modes, so you can feel the difference between them on the same data.
 One query, three ways to rank it:
 
 - **Semantic** embeds the query with a dense model (mxbai-embed-large-v1) and ranks by vector similarity. Good for meaning, weak on exact terms.
-- **Keyword** matches the exact words through a full-text index. Good for names and specific terms, blind to meaning.
+- **Keyword** ranks by bm25 over a sparse vector, with IDF applied server-side. Good for names and specific terms, blind to meaning.
 - **Hybrid** runs both and fuses them with Reciprocal Rank Fusion. It is the default, and usually the best of the two.
 
 Qdrant does the retrieval end to end: a named `dense` vector for semantic, a

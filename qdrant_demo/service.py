@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from qdrant_demo.config import (
     COLLECTION_NAME, STATIC_DIR, RESULT_LIMIT, CLOUD_INFERENCE, EMBEDDINGS_MODEL,
+    SPARSE_EMBEDDINGS_MODEL,
 )
 from qdrant_demo.neural_searcher import NeuralSearcher
 from qdrant_demo.text_searcher import TextSearcher
@@ -44,8 +45,12 @@ async def read_item(q: str, mode: Optional[str] = None, neural: Optional[bool] =
         return {"result": [], "stats": {"mode": mode}}
     try:
         if mode == "keyword":
-            return {"result": text_searcher.search(query=q, top=RESULT_LIMIT),
-                    "stats": {"mode": "keyword"}}
+            results = text_searcher.search(query=q, top=RESULT_LIMIT)
+            return {"result": results,
+                    "stats": {"mode": "keyword",
+                              "embedding_model": SPARSE_EMBEDDINGS_MODEL,
+                              "score_type": "bm25",
+                              "results": len(results)}}
         out = neural_searcher.search(text=q, hybrid=(mode == "hybrid"))
         return {"result": out["results"], "stats": out["stats"]}
     except Exception as e:
