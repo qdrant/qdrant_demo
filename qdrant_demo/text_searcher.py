@@ -23,7 +23,7 @@ class TextSearcher:
         self.collection_name = collection_name
         timeout = int(os.environ.get("QDRANT_TIMEOUT", "15"))
         self.qdrant_client = QdrantClient(
-            url=QDRANT_URL, api_key=QDRANT_API_KEY,
+            url=QDRANT_URL, api_key=QDRANT_API_KEY, prefer_grpc=True,
             cloud_inference=CLOUD_INFERENCE, timeout=timeout,
         )
 
