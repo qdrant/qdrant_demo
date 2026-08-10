@@ -8,7 +8,10 @@ STATIC_DIR = os.path.join(ROOT_DIR, "static")
 QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333/")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY", "")
 
-COLLECTION_NAME = os.environ.get("COLLECTION_NAME", "startups_hybrid")
+# `or` rather than a get() default: a missing deploy secret expands to an empty
+# string, which is set-but-useless, and every request would 502 on a nameless
+# collection instead of falling back here.
+COLLECTION_NAME = os.environ.get("COLLECTION_NAME") or "startups_hybrid"
 EMBEDDINGS_MODEL = os.environ.get("EMBEDDINGS_MODEL", "mixedbread-ai/mxbai-embed-large-v1")
 # Sparse keyword model. Qdrant/bm25 handles tokenization, stemming, and stopwords;
 # IDF is applied server-side via the collection's sparse modifier.
