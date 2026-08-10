@@ -31,5 +31,5 @@ CLOUD_INFERENCE = os.environ.get("CLOUD_INFERENCE", "1").strip().strip('"').stri
 RESULT_LIMIT = int(os.environ.get("RESULT_LIMIT", "20"))
 # Candidates each half of the hybrid query fetches before RRF. At 2x the result
 # limit the two lists barely intersect on a 3M collection, so fusion degrades to
-# interleaving. 10x measured 3-6x more shared documents for +4ms at p50.
+# interleaving. 10x measured 3x to 6x more shared documents for +4 ms at p50.
 HYBRID_PREFETCH = int(os.environ.get("HYBRID_PREFETCH", "200"))
