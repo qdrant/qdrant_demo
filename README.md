@@ -12,7 +12,7 @@ One query, three ways to rank it:
 
 - **Semantic** embeds the query with a dense model (mxbai-embed-large-v1) and ranks by vector similarity. Good for meaning, weak on exact terms.
 - **Keyword** ranks by bm25 over a sparse vector, with IDF applied server-side. Good for names and specific terms, blind to meaning.
-- **Hybrid** runs both and fuses them with Reciprocal Rank Fusion. It is the default, and usually the best of the two.
+- **Hybrid** runs both and fuses them with Reciprocal Rank Fusion, so a document ranked well by either method surfaces. It is the default.
 
 Qdrant does the retrieval end to end: a named `dense` vector for semantic, a
 `sparse` bm25 vector for keyword, and RRF to combine them.
@@ -84,6 +84,16 @@ GET /api/search?q=<query>&mode=<semantic|keyword|hybrid>
 `mode` defaults to `hybrid`. The older `neural` flag still works: `neural=true`
 maps to semantic, `neural=false` to keyword. An unknown mode returns a 400.
 
+Every response carries a `stats` object naming the mode and its `score_type`,
+which is `cosine` for semantic, `bm25` for keyword, and `rrf` for hybrid. The
+three scales are not comparable, so the score is only meaningful within a mode.
+
+```
+GET /api/stats
+```
+
+Returns the live point count, the collection name, and the active model.
+
 ## Scale Up With Crunchbase Data
 
 Swap in a larger company dataset from [Crunchbase](https://www.crunchbase.com/).
@@ -107,7 +117,7 @@ python -m qdrant_demo.init_collection_crunchbase
 
 | Piece | Role |
 |-|-|
-| Qdrant | Vector search engine handling dense, sparse, and full-text retrieval. |
+| Qdrant | Vector search engine handling dense and sparse retrieval, and the fusion between them. |
 | `mxbai-embed-large-v1` | The 1024-dimensional dense embedding model. |
 | `Qdrant/bm25` | The sparse keyword model. The collection applies IDF at query time. |
 | Qdrant Cloud Inference | Embeds queries and documents server-side, with a local fastembed fallback. |
@@ -124,6 +134,6 @@ RRF before the payloads are returned to the UI.
 | `init_collection_startups.py` | Builds the collection with named `dense` and `sparse` vectors, a text index, and the renamed payload, then uploads the startups. |
 | `init_collection_crunchbase.py` | The same build for the larger Crunchbase dataset. |
 | `neural_searcher.py` | Semantic and hybrid (dense + bm25, RRF) search. |
-| `text_searcher.py` | Keyword search over the full-text index, with match highlighting. |
-| `service.py` | The FastAPI app and the `/api/search` endpoint. |
+| `text_searcher.py` | Keyword search over the `sparse` bm25 vector, with match highlighting. |
+| `service.py` | The FastAPI app, the `/api/search` endpoint, and `/api/stats`. |
 | `config.py` | Environment configuration: Qdrant connection, collection, models, and vector names. |
