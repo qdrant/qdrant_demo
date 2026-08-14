@@ -1,114 +1,139 @@
+# Startup Hybrid Search
 
-# Semantic Search Engine
+[![Try it live](https://img.shields.io/badge/Try%20it%20live%20here!-purple?&style=flat-square&logo=react&logoColor=white)](https://demo.qdrant.tech/)
 
-You can clone this repo and create your own search engine in a few steps! 
-</br> [![Demo](https://img.shields.io/badge/Try%20it%20live%20here!-purple?&style=flat-square&logo=react&logoColor=white)](https://demo.qdrant.tech/) 
+Clone this repo and stand up your own search engine in a few steps. It searches a
+catalog of startups by their descriptions and lets you switch between three
+retrieval modes, so you can feel the difference between them on the same data.
 
-You can use this small app to search through a list of popular startups.
-<br> - The **neural search** will read the description and look for similar startups.
-</br> - The **keyword search** will look up your exact term in the description. 
+## How It Works
 
-![Startup Search Demo](demo.gif)
+One query, three ways to rank it:
 
-## Prerequisites
-- Python (v.3.11)
-- Docker
+- **Semantic** embeds the query with a dense model (mxbai-embed-large-v1) and ranks by vector similarity. Good for meaning, weak on exact terms.
+- **Keyword** ranks by bm25 over a sparse vector, with IDF applied server-side. Good for names and specific terms, blind to meaning.
+- **Hybrid** runs both and fuses them with Reciprocal Rank Fusion, so a document ranked well by either method surfaces. It is the default.
 
-## Setup
+Qdrant does the retrieval end to end: a named `dense` vector for semantic, a
+`sparse` bm25 vector for keyword, and RRF to combine them.
 
-### 1. Setup the virtual environment 
+## Quickstart
 
-```python
-python -m venv .venv             
+Runs fully locally against a Qdrant container. No cloud account needed.
+
+**Prerequisites:** Python 3.11 and Docker.
+
+**1. Create the virtual environment**
+
+```bash
+python -m venv .venv
 source .venv/bin/activate
 ```
 
-### 2. Install required dependencies
+**2. Install dependencies**
 
 ```bash
 pip install poetry
 poetry install
 ```
 
-### 3. Download the dataset
+**3. Download the dataset**
 
 ```bash
 wget https://storage.googleapis.com/generall-shared-data/startups_demo.json -P data/
 ```
 
-### 4. Deploy the service
+**4. Start Qdrant and the app**
 
 ```bash
 docker-compose -f docker-compose-local.yaml up
 ```
 
-### 5. Upload data to the application
+**5. Load the data**
+
+Locally, set `CLOUD_INFERENCE=0` so the client embeds with fastembed:
 
 ```bash
-python -m qdrant_demo.init_collection_startups
+CLOUD_INFERENCE=0 python -m qdrant_demo.init_collection_startups
 ```
 
-### 6.  Go to [http://localhost:8000/](http://localhost:8000/) 
+**6. Open the app**
 
+Go to [http://localhost:8000/](http://localhost:8000/) and start searching.
 
-## Using a larger dataset with more startups
+## Run Against Qdrant Cloud
 
-You can add a larger dataset of companies provided by [Crunchbase](https://www.crunchbase.com/).
-
-For this, you will need to register at [https://www.crunchbase.com/](https://www.crunchbase.com/) and get an API key.
-
-### 1. Download the data 
+Point the app at a Qdrant Cloud cluster and let it embed server-side, so nothing
+downloads locally. Set these before loading data and starting the app:
 
 ```bash
+export QDRANT_URL="https://<your-cluster>.cloud.qdrant.io:6333"
+export QDRANT_API_KEY="<your-api-key>"
+export CLOUD_INFERENCE=1   # the default
+```
+
+The same `python -m qdrant_demo.init_collection_startups` builds the collection,
+this time with Qdrant Cloud Inference doing the embedding.
+
+## The Search API
+
+```
+GET /api/search?q=<query>&mode=<semantic|keyword|hybrid>
+```
+
+`mode` defaults to `hybrid`. The older `neural` flag still works: `neural=true`
+maps to semantic, `neural=false` to keyword. An unknown mode returns a 400.
+
+Every response carries a `stats` object naming the mode and its `score_type`,
+which is `cosine` for semantic, `bm25` for keyword, and `rrf` for hybrid. The
+three scales are not comparable, so the score is only meaningful within a mode.
+
+```
+GET /api/stats
+```
+
+Returns the live point count, the collection name, and the active model.
+
+## Scale Up With Crunchbase Data
+
+Swap in a larger company dataset from [Crunchbase](https://www.crunchbase.com/).
+Register for an API key, then:
+
+```bash
+# 1. Download and unpack
 wget 'https://api.crunchbase.com/odm/v4/odm.tar.gz?user_key=<CRUNCHBASE-API-KEY>' -O odm.tar.gz
-```
-
-### 2. Decompress the data and add `organizations.csv` to `./data` folder.
-
-```bash
 tar -xvf odm.tar.gz
 mv odm/organizations.csv ./data
-```
 
-### 3. Now you can index new Crunchbase data into Qdrant
-
-```bash
+# 2. Build the collection (same schema as the startups one)
 python -m qdrant_demo.init_collection_crunchbase
 ```
 
+> The hosted demo runs a larger startups collection (roughly 3M profiles) built
+> the same way. This repo builds the smaller `startups_demo.json` set by default.
+> Point `COLLECTION_NAME` at your own collection to serve a different one.
 
-## What's inside of this app? 
+## How It's Built
 
-|Software Stack||
+| Piece | Role |
 |-|-|
-|Qdrant|Vector database and a search engine with full-text and semantic capabilities.|
-|`all-MiniLM-L6-v2`|The embedding model that turns startup data to vectors.|
-|FastEmbed|Qdrant's package that simplifies this vectorization process.|
-|Frontend in TypeScript|Basic visuals that you see in the deployed application.|
+| Qdrant | Vector search engine handling dense and sparse retrieval, and the fusion between them. |
+| `mxbai-embed-large-v1` | The 1024-dimensional dense embedding model. |
+| `Qdrant/bm25` | The sparse keyword model. The collection applies IDF at query time. |
+| Qdrant Cloud Inference | Embeds queries and documents server-side, with a local fastembed fallback. |
+| React + TypeScript frontend | The UI you see in the deployed app. |
 
-|Application Components||
+Search flow: the query is embedded by the same models the documents were, then
+dense and sparse results come back from Qdrant and, in hybrid mode, get fused with
+RRF before the payloads are returned to the UI.
+
+## Project Structure
+
+| File | Responsibility |
 |-|-|
-|`init_collection_startups.py`|Uploads document embeddings to a Qdrant collection.|
-|`neural_searcher.py`|Defines the semantic search process via vector search and optional payload filter.|
-|`text_searcher.py`|Defines the keyword search process across startup metadata / payload.|
-|`service.py`|Setup instructions for the entire FastAPI application.|
-|`config.py`|Defines the directories for code, root, data, and static files|
-
-## init_collection_startups.py
-This reads a JSON file containing startup data, restructures the data into a unified schema, and recreates a collection in Qdrant with specified vector and quantization configurations.
-
-In this example, we are turning on Scalar Quantization to make sure less memory is used to process data.
-
-A payload index is created for text search on a specified text field. Finally, it uploads the documents and their metadata to the Qdrant collection. 
-
-## neural_searcher.py
-The NeuralSearcher class enables semantic searches. The search method takes a text query and an optional filter, performs a semantic search in the specified collection, and returns the top five results’ metadata. 
-
-## text_searcher.py
-The TextSearcher class defines text searches. The search method queries the specified text field for matches and returns the top results, while the highlight method wraps matching query terms in HTML <b> tags for emphasis. 
-
-## service.py
-This initializes both searchers. A GET endpoint /api/search allows querying with a text string and a flag to choose between neural and text search methods. 
-
-## config.py
-This retrieves environment variables for the Qdrant URL, API key, collection name, and embeddings model. It sets the name of the field used for text data as “document”. 
+| `init_collection_startups.py` | Builds the collection with named `dense` and `sparse` vectors, a text index, and the renamed payload, then uploads the startups. |
+| `init_collection_crunchbase.py` | The same build for the larger Crunchbase dataset. |
+| `neural_searcher.py` | Semantic and hybrid (dense + bm25, RRF) search. |
+| `text_searcher.py` | Keyword search over the `sparse` bm25 vector, with match highlighting. |
+| `service.py` | The FastAPI app, the `/api/search` endpoint, and `/api/stats`. |
+| `config.py` | Environment configuration: Qdrant connection, collection, models, and vector names. |

@@ -1,4 +1,4 @@
-import { getSearchResult } from '@/api/search';
+import { getSearchResult, SearchMode } from '@/api/search';
 import { StatusCodes } from 'http-status-codes';
 import useMountedState from './useMountedState';
 
@@ -27,11 +27,11 @@ export const useGetSearchResult = () => {
 	const [error, setError] = useMountedState<string | null>(null);
 	const [loading, setLoading] = useMountedState<boolean>(false);
 
-	const getSearch = async (query: string,neural?:boolean) => {
+	const getSearch = async (query: string, mode?: SearchMode) => {
 		try {
 			setLoading(true);
 			setError(null);
-			const res = await getSearchResult({ query,neural });
+			const res = await getSearchResult({ query, mode });
 
 			switch (res.status) {
 				case StatusCodes.OK: {

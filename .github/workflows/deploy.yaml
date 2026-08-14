@@ -49,7 +49,7 @@ jobs:
                     -e OMP_NUM_THREADS=1 \
                     -e QDRANT_URL=${{ secrets.QDRANT_URL }} \
                     -e QDRANT_API_KEY=${{ secrets.QDRANT_API_KEY }} \
-                    -e QDRANT_COLLECTION=${{ secrets.QDRANT_COLLECTION }} \
+                    -e COLLECTION_NAME=${{ secrets.QDRANT_COLLECTION }} \
                     --name $containerName qdrant/search-demo:${{ github.sha }};
         host: ${{ secrets.DEPLOY_HOST }}
         user: ${{ secrets.DEPLOY_USER }}
