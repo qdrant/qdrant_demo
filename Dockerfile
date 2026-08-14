@@ -2,7 +2,7 @@
 # https://www.erraticbits.ca/post/2021/fastapi/
 
 # Build step #1: build the React front end
-FROM node:20-bookworm-slim as build-step
+FROM node:26-bookworm-slim as build-step
 
 WORKDIR /app
 
